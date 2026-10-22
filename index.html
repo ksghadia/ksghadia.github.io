@@ -125,6 +125,15 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { font: 400 0.76rem/1 var(--mono); padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); }
 
+.projects { display: grid; gap: 16px; }
+.proj { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 28px; }
+.proj-main, .proj-side { display: grid; gap: 12px; align-content: start; min-width: 0; }
+.proj h3 { font-size: 1.45rem; font-weight: 800; }
+.kind { justify-self: start; font: 600 0.72rem/1 var(--mono); letter-spacing: 0.06em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 10px; }
+.proj ul { margin: 0; padding-left: 18px; display: grid; gap: 7px; font-size: 0.95rem; color: var(--muted); }
+.proj ul b { color: var(--ink); font-weight: 600; }
+.note { font-size: 0.85rem; color: var(--muted); }
+
 .log { display: grid; border-top: 1px solid var(--line); }
 .entry { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .when { font: 400 0.86rem/1.5 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -144,7 +153,8 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
 @media (max-width: 720px) {
   main { padding-block: 64px 56px; gap: 64px; }
-  .stats, .cases, .tools { grid-template-columns: minmax(0, 1fr); }
+  .stats, .cases, .tools, .proj { grid-template-columns: minmax(0, 1fr); }
+  .proj { padding: 20px; gap: 18px; }
   .entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .contact { padding: 22px; }
 }
@@ -204,7 +214,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   </section>
 
   <section id="work" aria-labelledby="work-h">
-    <div class="sec-head"><span class="label">Selected work</span><h2 id="work-h">What I've built</h2></div>
+    <div class="sec-head"><span class="label">Selected work</span><h2 id="work-h">Results at work</h2></div>
     <div class="cases">
       <article class="case">
         <h3>AI-driven build verification</h3>
@@ -213,22 +223,85 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
         <div class="tags"><span class="tag">AI agents</span><span class="tag">Claude</span><span class="tag">MCP</span></div>
       </article>
       <article class="case">
-        <h3>QA agents the team uses daily</h3>
-        <p>A Jira bug verifier that checks a fix is ready to test and posts evidence to the ticket, and a spec-driven web-app tester with Playwright replays, read only database checks and live Xray updates. Extended to Android over adb.</p>
-        <p class="result">Backed by a regression suite of 44 tests</p>
-        <div class="tags"><span class="tag">Playwright</span><span class="tag">Python</span><span class="tag">adb</span><span class="tag">Xray</span></div>
-      </article>
-      <article class="case">
         <h3>Ei Mira release quality</h3>
         <p>End-to-end QA for 10 Android releases (Apr–Sep 2026): staging and production regression plus Play Store APK sanity.</p>
         <p class="result">0 critical escapes · 55 defects, 84% High/Highest, 87% fixed</p>
         <div class="tags"><span class="tag">Android</span><span class="tag">Regression</span><span class="tag">Jira</span></div>
       </article>
       <article class="case">
-        <h3>AI QA Engineer toolkit</h3>
-        <p>An agentic QA plugin: requirement review, Xray test case design, browser test execution, bug triage, regression scoping and QA metrics, with eval benchmarks and a self-improving lessons loop.</p>
-        <p class="result">5 specialist agents · 19 skills</p>
-        <div class="tags"><span class="tag">Claude Code</span><span class="tag">MCP</span></div>
+        <h3>AI-assisted root-cause analysis</h3>
+        <p>Traced high-priority production issues with AI help, down to logs and the database, for teacher-led schools.</p>
+        <p class="result">Permanent fix to the adaptive logic</p>
+        <div class="tags"><span class="tag">RCA</span><span class="tag">SQL</span><span class="tag">MongoDB</span></div>
+      </article>
+      <article class="case">
+        <h3>Field testing in real schools</h3>
+        <p>Tested offline sync in school clusters, and online and offline school setups for a state-government programme tender.</p>
+        <p class="result">20–30 Android devices per field test</p>
+        <div class="tags"><span class="tag">Offline sync</span><span class="tag">Android</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="projects" aria-labelledby="proj-h">
+    <div class="sec-head"><span class="label">Projects</span><h2 id="proj-h">Things I've built</h2></div>
+    <div class="projects">
+      <article class="proj">
+        <div class="proj-main">
+          <span class="kind">Work · internal tool</span>
+          <h3>QA release agents</h3>
+          <p>AI agents the QA team uses every day to verify bug fixes and run spec-driven tests, built at Educational Initiatives on Claude and MCP.</p>
+          <p class="result">Web + Android · regression suite of 44 tests</p>
+        </div>
+        <div class="proj-side">
+          <span class="label">How it works</span>
+          <ul>
+            <li><b>Bug verifier:</b> checks a Jira fix is ready to test, reproduces it and posts evidence back to the ticket.</li>
+            <li><b>Spec-driven web tester:</b> Playwright replays, read only database checks and live Xray updates.</li>
+            <li><b>Android:</b> the same checks on real devices over adb.</li>
+          </ul>
+          <div class="tags"><span class="tag">Claude</span><span class="tag">MCP</span><span class="tag">Playwright</span><span class="tag">Python</span><span class="tag">JavaScript</span><span class="tag">adb</span><span class="tag">Xray</span></div>
+          <p class="note">Internal to Ei, so there is no public code.</p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-main">
+          <span class="kind">Personal · private repo</span>
+          <h3>AI QA Engineer toolkit</h3>
+          <p>An agentic QA plugin for Claude Code that covers the QA lifecycle, from reading requirements to reporting metrics.</p>
+          <p class="result">5 specialist agents · 19 skills</p>
+        </div>
+        <div class="proj-side">
+          <span class="label">How it works</span>
+          <ul>
+            <li><b>Agents:</b> test case designer, test case reviewer, QA engineer, test automation engineer and bug analyst.</li>
+            <li><b>Skills:</b> requirement review, Xray test case design, browser test execution, bug triage, regression scoping and QA metrics.</li>
+            <li><b>Quality:</b> eval benchmarks plus a self-improving lessons loop that refines the skills over time.</li>
+            <li><b>Safety:</b> git hooks scan every commit so credentials and company data never enter the repo.</li>
+          </ul>
+          <div class="tags"><span class="tag">Claude Code</span><span class="tag">MCP</span><span class="tag">Python</span><span class="tag">Evals</span></div>
+          <p class="note">Private repo. Happy to demo it in an interview.</p>
+        </div>
+      </article>
+
+      <article class="proj">
+        <div class="proj-main">
+          <span class="kind">Personal · open source</span>
+          <h3>This portfolio</h3>
+          <p>A one-page portfolio you can question. The ask box answers from my CV without any backend or paid API, and says so when it doesn't know.</p>
+          <p class="result">Static site · no backend · free hosting</p>
+        </div>
+        <div class="proj-side">
+          <span class="label">How it works</span>
+          <ul>
+            <li><b>Answers:</b> prewritten from my CV, picked by keyword matching, with a source label on each.</li>
+            <li><b>Honest gaps:</b> tools I haven't used get a clear "not on my CV" answer.</li>
+            <li><b>Details:</b> light and dark themes, a link preview card and a downloadable CV.</li>
+          </ul>
+          <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div>
+          <p class="note"><a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">View the code on GitHub</a></p>
+        </div>
       </article>
     </div>
   </section>
@@ -320,9 +393,12 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       a: '<ul><li>Led <b>AI-assisted root-cause analysis</b> of high-priority production issues, driving a permanent fix to the adaptive logic for teacher-led schools.</li>' +
          '<li>Test below the UI at the <b>database layer</b>, catching corrupt attempt records before they reach students and teachers.</li>' +
          '<li><b>Shift-left</b>: testing starts at spec review, so high-risk defects are caught before builds reach QA.</li></ul>' },
-    { id: 'toolkit', chip: 'Toolkit', q: 'Tell me about your AI QA toolkit.',
-      keys: ['toolkit', 'plugin', 'project', 'projects', 'side', 'skills', 'eval', 'benchmark'],
-      a: '<p>The <b>AI QA Engineer toolkit</b> is an agentic QA plugin with <b>5 specialist agents</b> and <b>19 skills</b>: requirement review, Xray test case design, browser test execution, bug triage, regression scoping and QA metrics. It has eval benchmarks and a self-improving lessons loop.</p>' },
+    { id: 'projects', chip: 'Projects', q: 'What projects have you built?',
+      keys: ['toolkit', 'plugin', 'project', 'projects', 'side', 'eval', 'benchmark', 'portfolio', 'site', 'website', 'github', 'built', 'build'],
+      a: '<ul><li><b>QA release agents</b> (work, internal): bug verifier, spec-driven web tester and Android checks over adb, backed by a regression suite of 44 tests.</li>' +
+         '<li><b>AI QA Engineer toolkit</b> (personal, private repo): a Claude Code plugin with 5 specialist agents and 19 skills, eval benchmarks and a self-improving lessons loop.</li>' +
+         '<li><b>This portfolio</b> (open source): answers from my CV with no backend. <a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">See the code</a>.</li></ul>' +
+         '<p><a href="#projects">Jump to the Projects section</a></p>' },
     { id: 'experience', chip: 'Experience', q: 'What is your experience?',
       keys: ['experience', 'career', 'years', 'history', 'job', 'jobs', 'work', 'company', 'ei', 'educational', 'mindspark', 'role', 'roles'],
       a: '<p>All at <b>Educational Initiatives (Ei)</b>, Ahmedabad, on Mindspark (adaptive-learning web platform) and the Ei Mira Android apps:</p><ul>' +
