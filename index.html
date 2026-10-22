@@ -9,6 +9,12 @@
 <meta property="og:description" content="AI QA agents, test automation and release quality for ed-tech products.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://ksghadia.github.io/">
+<meta property="og:image" content="https://ksghadia.github.io/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Kishan Ghadiya, Senior SDET · AI QA Agents">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://ksghadia.github.io/og.png">
 <meta name="theme-color" content="#0e1417">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2334b3a6'/%3E%3Cstop offset='1' stop-color='%2387d68f'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='42' font-family='Arial,sans-serif' font-size='26' font-weight='700' text-anchor='middle' fill='%230e1417'%3EKG%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -73,6 +79,11 @@ main { max-width: 920px; margin: 0 auto; padding-block: 56px 80px; display: grid
 .hero h1 .dot { color: var(--accent); }
 .bio { max-width: 58ch; color: var(--muted); font-size: 1.05rem; }
 .bio b { color: var(--ink); font-weight: 600; }
+.cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 10px 18px; font: 600 0.92rem/1 var(--body); text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.btn:hover { border-color: var(--accent); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+.btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
 
 /* Ask console */
 .console { width: 100%; max-width: 720px; display: grid; gap: 14px; margin-top: 10px; }
@@ -157,6 +168,15 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     <p class="hello">Hi, I'm Kishan Ghadiya</p>
     <h1>Senior SDET <span class="dot">·</span> AI QA Agents</h1>
     <p class="bio">I build <b>AI QA agents</b> that test alongside the team and I own <b>release quality</b> for ed-tech products used by school students. 5+ years of QA and test automation underneath. Ask me anything below: the answers come straight from my CV.</p>
+
+    <div class="cta">
+      <a class="btn primary" href="Kishan_Ghadiya_Senior_SDET.pdf" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download CV</a>
+      <a class="btn" href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>LinkedIn</a>
+      <button class="btn" type="button" id="copy-email-hero" data-target="v-email">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Copy email</button>
+    </div>
 
     <div class="console">
       <form class="ask" id="ask-form" autocomplete="off">
@@ -290,7 +310,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       keys: ['lead', 'leader', 'leadership', 'mentor', 'mentored', 'mentoring', 'team', 'manage', 'manager', 'senior'],
       a: '<p>I am the <b>acting QA lead for Mindspark 4.0</b>. I defined the test case process, review specs and test cases, mentor <b>5 QA engineers</b> with AI testing demos, and run our Automation sprint ceremonies.</p>' },
     { id: 'automation', chip: 'Automation', q: 'What test automation have you done?',
-      keys: ['cypress', 'playwright', 'selenium', 'automation', 'automated', 'framework', 'api', 'rest', 'postman', 'rest assured', 'jenkins', 'ci'],
+      keys: ['cypress', 'playwright', 'automation', 'automated', 'framework', 'api', 'rest', 'postman', 'rest assured', 'jenkins', 'ci'],
       a: '<ul><li>Started <b>Cypress</b> GUI automation for core Mindspark flows and grew coverage to <b>500+ automated test cases</b>.</li>' +
          '<li>REST API testing with <b>Rest Assured</b> and <b>Postman</b>.</li>' +
          '<li>Regression runs in <b>Jenkins</b>.</li>' +
@@ -334,6 +354,16 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       a: '<ul><li><b>B.E. in Electrical Engineering</b>, Dr. Subhash University, 2017</li>' +
          '<li>Automation Testing Engineer (StarAgile)</li><li>API Testing using Postman, SoapUI and RestAssured (Udemy)</li>' +
          '<li>Manual Testing (LambdaTest)</li><li>Software Testing (Great Learning)</li></ul>' },
+    { id: 'gaps', hidden: true, chip: 'Other tools', q: 'Other tools',
+      keys: ['selenium', 'java', 'testng', 'junit', 'appium', 'webdriver', 'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'cloud', 'performance', 'load', 'jmeter', 'k6', 'gatling', 'loadrunner', 'typescript', 'c#', 'ruby'],
+      a: '<p>That one isn\'t on my CV, so I won\'t claim it. Here is what I use in real work:</p><ul>' +
+         '<li><b>UI automation:</b> Cypress and Playwright, in JavaScript and Python.</li>' +
+         '<li><b>API testing:</b> Rest Assured, Postman and Apidog.</li>' +
+         '<li><b>Mobile:</b> Android testing, including agent-driven checks over adb.</li>' +
+         '<li><b>CI and data:</b> Jenkins, Git, MySQL, MongoDB.</li></ul>' },
+    { id: 'logistics', hidden: true, chip: 'Hiring details', q: 'Hiring details',
+      keys: ['notice', 'period', 'salary', 'ctc', 'compensation', 'package', 'expected', 'availability', 'available', 'join', 'joining', 'relocate', 'relocation', 'remote', 'hybrid', 'onsite', 'on-site', 'location'],
+      a: '<p>I\'m based in <b>Ahmedabad, India</b>. For notice period, compensation and availability, please email me at <b>ksghadia@gmail.com</b> or message me on <a href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">LinkedIn</a>, and I\'ll reply with the details.</p>' },
     { id: 'contact', chip: 'Contact', q: 'How can I contact you?',
       keys: ['contact', 'email', 'mail', 'reach', 'linkedin', 'hire', 'call', 'phone', 'connect'],
       a: '<p>Email <b>ksghadia@gmail.com</b> or message me on <a href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">LinkedIn</a>. I\'m based in Ahmedabad, India.</p>' }
@@ -344,6 +374,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   var input = document.getElementById('ask-input');
 
   KB.forEach(function (item) {
+    if (item.hidden) return;
     var b = document.createElement('button');
     b.type = 'button'; b.className = 'chip'; b.id = 'chip-' + item.id;
     b.innerHTML = '<span>›</span>' + item.chip;
@@ -388,11 +419,18 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   // Open with one answer so the page shows what it does.
   answer(KB[0].q, KB[0]);
 
-  document.getElementById('copy-email').addEventListener('click', function () {
-    var btn = this, el = document.getElementById(btn.dataset.target);
-    function done(m) { btn.textContent = m; setTimeout(function () { btn.textContent = 'Copy'; }, 1500); }
-    function fallback() { var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected'); }
-    try { navigator.clipboard.writeText(el.textContent.trim()).then(function () { done('Copied'); }, fallback); } catch (e) { fallback(); }
+  ['copy-email', 'copy-email-hero'].forEach(function (id) {
+    var btn = document.getElementById(id);
+    var original = btn.innerHTML;
+    btn.addEventListener('click', function () {
+      var el = document.getElementById(btn.dataset.target);
+      function done(m) { btn.textContent = m; setTimeout(function () { btn.innerHTML = original; }, 1500); }
+      function fallback() {
+        el.scrollIntoView({ block: 'center' });
+        var r = document.createRange(); r.selectNodeContents(el); var s = getSelection(); s.removeAllRanges(); s.addRange(r); done('Selected below');
+      }
+      try { navigator.clipboard.writeText(el.textContent.trim()).then(function () { done('Copied'); }, fallback); } catch (e) { fallback(); }
+    });
   });
 })();
 </script>
