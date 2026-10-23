@@ -236,6 +236,40 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 .entry .org { color: var(--muted); font-size: 0.93rem; margin-top: 4px; }
 .entry ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 5px; color: var(--muted); }
 .entry li span { color: var(--ink); }
+.exp-top { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 28px; align-items: end; }
+.exp-stats { display: flex; flex-wrap: wrap; gap: 22px; }
+.exp-stats div { display: grid; gap: 4px; }
+.exp-stats b { font: 600 2.2rem/1 var(--mono); color: var(--accent); }
+.exp-stats span { color: var(--muted); font-size: 0.88rem; }
+.ladder { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; align-items: end; min-height: 200px; }
+.step { display: grid; gap: 8px; align-content: end; }
+.step-bar { border-radius: 10px 10px 4px 4px; background: var(--surface-2); border: 1px solid var(--line); position: relative; }
+.step:nth-child(1) .step-bar { height: 44px; }
+.step:nth-child(2) .step-bar { height: 82px; background: color-mix(in srgb, var(--accent) 22%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 40%, var(--line)); }
+.step:nth-child(3) .step-bar { height: 120px; background: color-mix(in srgb, var(--accent) 40%, var(--surface)); border-color: color-mix(in srgb, var(--accent) 60%, var(--line)); }
+.step:nth-child(4) .step-bar { height: 158px; background: var(--grad); border-color: transparent; box-shadow: 0 16px 40px -18px rgba(63,193,178,0.7); }
+.step-bar .flag { position: absolute; top: 10px; left: 10px; font: 600 0.66rem/1 var(--mono); letter-spacing: 0.08em; text-transform: uppercase; color: #0e1417; background: rgba(255,255,255,0.75); border-radius: 999px; padding: 4px 7px; }
+.step-name { font: 800 0.92rem/1.2 var(--display); }
+.step-year { font: 400 0.76rem/1 var(--mono); color: var(--muted); }
+
+.timeline { position: relative; display: grid; gap: 16px; padding-left: 34px; }
+.timeline::before { content: ""; position: absolute; left: 11px; top: 8px; bottom: 8px; width: 2px; background: linear-gradient(var(--accent), var(--line)); border-radius: 2px; }
+.role { position: relative; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px 22px; display: grid; gap: 12px; transition: border-color 0.2s ease, transform 0.2s ease; }
+.role:hover { border-color: var(--accent); transform: translateX(2px); }
+.role::before { content: ""; position: absolute; left: -29px; top: 24px; width: 12px; height: 12px; border-radius: 50%; background: var(--bg); border: 2px solid var(--muted); }
+.role.now { border-color: color-mix(in srgb, var(--accent) 55%, var(--line)); box-shadow: 0 20px 50px -30px rgba(63,193,178,0.6); }
+.role.now::before { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 0 5px var(--glow-a); }
+.role.muted { background: transparent; }
+.role-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 16px; align-items: baseline; }
+.role-head h3 { font-size: 1.22rem; font-weight: 800; }
+.role-meta { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; font: 400 0.82rem/1 var(--mono); color: var(--muted); }
+.dur { padding: 5px 8px; border: 1px solid var(--line); border-radius: 999px; color: var(--ink); }
+.live { display: inline-flex; align-items: center; gap: 6px; padding: 5px 9px; border-radius: 999px; background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+.live i { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-ink); display: block; }
+.wins { list-style: none; margin: 0; padding: 0; display: grid; gap: 7px; }
+.wins li { display: grid; grid-template-columns: 18px minmax(0, 1fr); gap: 8px; font-size: 0.95rem; }
+.wins li::before { content: "✓"; color: var(--pass); font: 600 0.85rem/1.6 var(--mono); }
+.role .org-line { color: var(--muted); font-size: 0.9rem; }
 .toolgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
 .tool-card { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 16px; align-content: start; transition: border-color 0.2s ease, transform 0.2s ease; }
 .tool-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--c); opacity: 0.85; }
@@ -274,7 +308,7 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
 @media (max-width: 860px) {
-  .hero, .ask-wrap, .lab, .edu { grid-template-columns: minmax(0, 1fr); }
+  .hero, .ask-wrap, .lab, .edu, .exp-top { grid-template-columns: minmax(0, 1fr); }
   .toolgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero { gap: 32px; }
 }
@@ -283,6 +317,11 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   .stats, .cases, .toolgrid, .proj, .certs { grid-template-columns: minmax(0, 1fr); }
   .proj { padding: 20px; gap: 18px; }
   .entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .ladder { min-height: 170px; gap: 6px; }
+  .step-name { font-size: 0.8rem; }
+  .timeline { padding-left: 28px; }
+  .role { padding: 16px; }
+  .role::before { left: -23px; }
   .contact { padding: 24px; }
   .run-body { font-size: 0.8rem; padding: 14px; }
 }
@@ -294,10 +333,17 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   .typing i:nth-child(2) { animation-delay: 0.15s; }
   .typing i:nth-child(3) { animation-delay: 0.3s; }
   .t.flash { animation: flash 0.5s ease-out; }
+  .live i { animation: pulse 1.6s ease-in-out infinite; }
+  .reveal.in .step-bar { animation: grow 0.9s cubic-bezier(.2,.7,.2,1) both; transform-origin: bottom; }
+  .reveal.in .step:nth-child(2) .step-bar { animation-delay: 0.1s; }
+  .reveal.in .step:nth-child(3) .step-bar { animation-delay: 0.2s; }
+  .reveal.in .step:nth-child(4) .step-bar { animation-delay: 0.3s; }
   @keyframes rise { from { opacity: 0.25; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
   @keyframes flash { from { background: var(--glow-a); } }
+  @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
+  @keyframes grow { from { transform: scaleY(0.35); } to { transform: none; } }
 }
 </style>
 </head>
@@ -518,21 +564,72 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   </section>
 
   <section id="experience" class="reveal" aria-labelledby="exp-h">
-    <div class="sec-head"><span class="label">Experience</span><h2 id="exp-h">Educational Initiatives (Ei), Ahmedabad</h2></div>
-    <div class="log">
-      <div class="entry"><div class="when">Jul 2026 – Present</div><div><h3>Senior SDET</h3><ul>
-        <li><span>AI build verification, 2 h → 30 min per build.</span></li>
-        <li><span>Acting QA lead for Mindspark 4.0; mentoring 5 QA engineers.</span></li>
-        <li><span>Built the team's AI QA agents for web and Android.</span></li>
-        <li><span>10 Ei Mira releases with zero critical escapes.</span></li></ul></div></div>
-      <div class="entry"><div class="when">Jul 2024 – Jun 2026</div><div><h3>Test Engineer 2</h3><ul>
-        <li><span>Started Cypress GUI automation; grew coverage to 500+ test cases.</span></li>
-        <li><span>AI-assisted root-cause analysis that led to a permanent adaptive-logic fix.</span></li>
-        <li><span>Shift-left and database-layer testing; offline sync field tests on 20–30 devices.</span></li></ul></div></div>
-      <div class="entry"><div class="when">Aug 2021 – Jun 2024</div><div><h3>Test Engineer</h3><ul>
-        <li><span>Functional, regression and cross-browser testing for Mindspark.</span></li>
-        <li><span>REST API testing with Rest Assured and Postman; regression in Jenkins.</span></li></ul></div></div>
-      <div class="entry"><div class="when">Apr 2019 – Jul 2021</div><div><h3>Junior Executive, Executive</h3><ul><li><span>Non-QA roles.</span></li></ul></div></div>
+    <div class="exp-top">
+      <div class="sec-head">
+        <span class="label">Experience</span>
+        <h2 id="exp-h">Grown in one place, role by role</h2>
+        <p>All at Educational Initiatives (Ei), Ahmedabad, on Mindspark (adaptive-learning web platform) and the Ei Mira Android apps.</p>
+        <div class="exp-stats">
+          <div><b>7+</b><span>years at Ei</span></div>
+          <div><b>5+</b><span>years in QA</span></div>
+          <div><b>3</b><span>QA roles</span></div>
+        </div>
+      </div>
+      <div class="ladder" aria-label="Career path from non-QA roles to Senior SDET">
+        <div class="step"><div class="step-bar"></div><span class="step-name">Non-QA roles</span><span class="step-year">2019</span></div>
+        <div class="step"><div class="step-bar"></div><span class="step-name">Test Engineer</span><span class="step-year">2021</span></div>
+        <div class="step"><div class="step-bar"></div><span class="step-name">Test Engineer 2</span><span class="step-year">2024</span></div>
+        <div class="step"><div class="step-bar"><span class="flag">now</span></div><span class="step-name">Senior SDET</span><span class="step-year">2026</span></div>
+      </div>
+    </div>
+
+    <div class="timeline">
+      <article class="role now">
+        <div class="role-head">
+          <h3>Senior SDET</h3>
+          <div class="role-meta"><span>Jul 2026 – Present</span><span class="dur" data-start="2026-07">4 mos</span><span class="live"><i></i>Current</span></div>
+        </div>
+        <ul class="wins">
+          <li>AI build verification, 2 h → 30 min per build.</li>
+          <li>Acting QA lead for Mindspark 4.0; mentoring 5 QA engineers.</li>
+          <li>Built the team's AI QA agents for web and Android.</li>
+          <li>10 Ei Mira releases with zero critical escapes.</li>
+        </ul>
+        <div class="tags"><span class="tag">AI agents</span><span class="tag">Claude</span><span class="tag">MCP</span><span class="tag">Playwright</span><span class="tag">adb</span><span class="tag">Xray</span></div>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <h3>Test Engineer 2</h3>
+          <div class="role-meta"><span>Jul 2024 – Jun 2026</span><span class="dur" data-start="2024-07" data-end="2026-06">2 yrs</span></div>
+        </div>
+        <ul class="wins">
+          <li>Started Cypress GUI automation; grew coverage to 500+ test cases.</li>
+          <li>AI-assisted root-cause analysis that led to a permanent adaptive-logic fix.</li>
+          <li>Shift-left and database-layer testing; offline sync field tests on 20–30 devices.</li>
+        </ul>
+        <div class="tags"><span class="tag">Cypress</span><span class="tag">SQL</span><span class="tag">MongoDB</span><span class="tag">Android</span></div>
+      </article>
+
+      <article class="role">
+        <div class="role-head">
+          <h3>Test Engineer</h3>
+          <div class="role-meta"><span>Aug 2021 – Jun 2024</span><span class="dur" data-start="2021-08" data-end="2024-06">2 yrs 11 mos</span></div>
+        </div>
+        <ul class="wins">
+          <li>Functional, regression and cross-browser testing for Mindspark.</li>
+          <li>REST API testing with Rest Assured and Postman; regression in Jenkins.</li>
+        </ul>
+        <div class="tags"><span class="tag">Rest Assured</span><span class="tag">Postman</span><span class="tag">Jenkins</span><span class="tag">Jira</span></div>
+      </article>
+
+      <article class="role muted">
+        <div class="role-head">
+          <h3>Junior Executive, Executive</h3>
+          <div class="role-meta"><span>Apr 2019 – Jul 2021</span><span class="dur" data-start="2019-04" data-end="2021-07">2 yrs 4 mos</span></div>
+        </div>
+        <p class="org-line">Non-QA roles at Ei before moving into testing.</p>
+      </article>
     </div>
   </section>
 
@@ -892,6 +989,18 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     }, { threshold: 0.2 });
     document.querySelectorAll('.reveal, [data-count]').forEach(function (el) { io.observe(el); });
   }
+
+  // ---- Role durations (inclusive months), so "Present" stays current ----
+  document.querySelectorAll('.dur[data-start]').forEach(function (el) {
+    var a = el.getAttribute('data-start').split('-'), b = el.getAttribute('data-end');
+    var now = new Date(), e = b ? b.split('-') : [now.getFullYear(), now.getMonth() + 1];
+    var m = (+e[0] - +a[0]) * 12 + (+e[1] - +a[1]) + 1;
+    if (m < 1) return;
+    var y = Math.floor(m / 12), r = m % 12, parts = [];
+    if (y) parts.push(y + (y === 1 ? ' yr' : ' yrs'));
+    if (r) parts.push(r + (r === 1 ? ' mo' : ' mos'));
+    el.textContent = parts.join(' ');
+  });
 
   // ---- Copy email ----
   ['copy-email', 'copy-email-hero'].forEach(function (id) {
