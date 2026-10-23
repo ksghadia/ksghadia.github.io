@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kishan Ghadiya · Senior SDET</title>
-<meta name="description" content="Kishan Ghadiya, Senior SDET in Ahmedabad. I build AI QA agents and own release quality for ed-tech products. Ask the page about my work.">
+<meta name="description" content="Kishan Ghadiya, Senior SDET in Ahmedabad. I build AI QA agents and own release quality for ed-tech products. Seed a bug, run the tests, and ask the page about my work.">
 <meta property="og:title" content="Kishan Ghadiya · Senior SDET">
 <meta property="og:description" content="AI QA agents, test automation and release quality for ed-tech products.">
 <meta property="og:type" content="website">
@@ -21,7 +21,8 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
-/* Layout: one centred column. Hero + "ask" console answering from prewritten CV facts, then a scannable profile below for recruiters who prefer to scroll. */
+/* Layout: a test-run themed page. Hero with a live CI run, an ask console, the numbers,
+   a seed-a-bug playground that really executes tests, then the scannable profile. */
 :root {
   --bg: #0e1417;
   --surface: #151e22;
@@ -32,6 +33,12 @@
   --accent: #3fc1b2;
   --accent-ink: #0e1417;
   --pass: #87d68f;
+  --fail: #ff7a72;
+  --fail-soft: rgba(255, 122, 114, 0.12);
+  --warn: #e7b85c;
+  --code-bg: #0b1114;
+  --glow-a: rgba(63, 193, 178, 0.22);
+  --glow-b: rgba(135, 214, 143, 0.14);
   --grad: linear-gradient(135deg, #34b3a6, #87d68f);
   --display: "Bricolage Grotesque", "Avenir Next", "Segoe UI", system-ui, sans-serif;
   --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
@@ -41,99 +48,185 @@
 @media (prefers-color-scheme: light) {
   :root:not([data-theme="dark"]) {
     --bg: #f4f7f7; --surface: #ffffff; --surface-2: #eef3f3; --ink: #11232a; --muted: #55676d;
-    --line: #d5dfe0; --accent: #0c7268; --accent-ink: #ffffff; --pass: #1f7a3a; color-scheme: light;
+    --line: #d5dfe0; --accent: #0c7268; --accent-ink: #ffffff; --pass: #1f7a3a; --fail: #c4372d;
+    --fail-soft: rgba(196, 55, 45, 0.08); --warn: #9a6a10; --code-bg: #f0f4f4;
+    --glow-a: rgba(12, 114, 104, 0.14); --glow-b: rgba(31, 122, 58, 0.10); color-scheme: light;
   }
 }
 :root[data-theme="light"] {
   --bg: #f4f7f7; --surface: #ffffff; --surface-2: #eef3f3; --ink: #11232a; --muted: #55676d;
-  --line: #d5dfe0; --accent: #0c7268; --accent-ink: #ffffff; --pass: #1f7a3a; color-scheme: light;
+  --line: #d5dfe0; --accent: #0c7268; --accent-ink: #ffffff; --pass: #1f7a3a; --fail: #c4372d;
+  --fail-soft: rgba(196, 55, 45, 0.08); --warn: #9a6a10; --code-bg: #f0f4f4;
+  --glow-a: rgba(12, 114, 104, 0.14); --glow-b: rgba(31, 122, 58, 0.10); color-scheme: light;
 }
 
 * { box-sizing: border-box; }
 html, body { margin: 0; }
+html { overflow-x: clip; }
 body {
   background: var(--bg); color: var(--ink); font: 400 1rem/1.6 var(--body);
   background-image: radial-gradient(var(--line) 1px, transparent 1px);
   background-size: 28px 28px; background-attachment: fixed;
   padding-left: max(16px, env(safe-area-inset-left, 0px));
   padding-right: max(16px, env(safe-area-inset-right, 0px));
+  overflow-x: clip;
 }
 a { color: var(--accent); text-underline-offset: 3px; }
-button { font: inherit; color: inherit; }
+button, select { font: inherit; color: inherit; }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
 h1, h2, h3 { font-family: var(--display); line-height: 1.08; margin: 0; text-wrap: balance; }
 p { margin: 0; }
 .label { font: 600 0.72rem/1 var(--mono); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
 
 .topbar { position: fixed; top: max(14px, env(safe-area-inset-top, 0px)); right: max(16px, env(safe-area-inset-right, 0px)); z-index: 5; }
 .icon-btn { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); cursor: pointer; display: grid; place-items: center; }
 .icon-btn svg { width: 18px; height: 18px; stroke: var(--ink); fill: none; stroke-width: 2; }
 
-main { max-width: 920px; margin: 0 auto; padding-block: 56px 80px; display: grid; gap: 88px; }
+main { max-width: 1040px; margin: 0 auto; padding-block: 56px 80px; display: grid; gap: 96px; }
 
 /* Hero */
-.hero { display: grid; justify-items: center; text-align: center; gap: 18px; }
-.mono-badge { width: 92px; height: 92px; border-radius: 24px; background: var(--grad); display: grid; place-items: center; font: 800 2rem/1 var(--display); color: #0e1417; box-shadow: 0 10px 40px -10px rgba(63,193,178,0.55); }
+.hero { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 48px; align-items: center; padding-top: 24px; }
+.glow { position: absolute; inset: -80px -120px -40px; z-index: -1; pointer-events: none;
+  background: radial-gradient(40% 50% at 18% 30%, var(--glow-a), transparent 70%),
+              radial-gradient(35% 45% at 85% 60%, var(--glow-b), transparent 70%); filter: blur(10px); }
+.hero-text { display: grid; gap: 20px; justify-items: start; min-width: 0; }
+.who { display: flex; align-items: center; gap: 14px; }
+.mono-badge { width: 64px; height: 64px; border-radius: 18px; background: var(--grad); display: grid; place-items: center; font: 800 1.45rem/1 var(--display); color: #0e1417; box-shadow: 0 10px 40px -10px rgba(63,193,178,0.6); flex: none; }
 .hello { color: var(--muted); font-weight: 500; }
-.hero h1 { font-size: clamp(2.4rem, 7vw, 4.6rem); font-weight: 800; letter-spacing: -0.025em; }
-.hero h1 .dot { color: var(--accent); }
-.bio { max-width: 58ch; color: var(--muted); font-size: 1.05rem; }
+.hello b { color: var(--ink); display: block; font-size: 1.1rem; }
+.hero h1 { font-size: clamp(2.6rem, 6.4vw, 4.8rem); font-weight: 800; letter-spacing: -0.03em; }
+.grad-text { background: var(--grad); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.bio { max-width: 52ch; color: var(--muted); font-size: 1.08rem; }
 .bio b { color: var(--ink); font-weight: 600; }
-.cta { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
-.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 10px 18px; font: 600 0.92rem/1 var(--body); text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
-.btn:hover { border-color: var(--accent); }
+.cta { display: flex; flex-wrap: wrap; gap: 10px; }
+.btn { display: inline-flex; align-items: center; gap: 8px; border-radius: 999px; padding: 11px 18px; font: 600 0.92rem/1 var(--body); text-decoration: none; border: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; transition: transform 0.15s ease, border-color 0.15s ease; }
+.btn:hover { border-color: var(--accent); transform: translateY(-1px); }
 .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
 .btn svg { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-width: 2; }
 
+/* Live test run */
+.run { background: var(--code-bg); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; box-shadow: 0 30px 80px -40px rgba(0,0,0,0.6); min-width: 0; }
+.run-bar { display: flex; align-items: center; gap: 8px; padding: 12px 14px; border-bottom: 1px solid var(--line); background: var(--surface); }
+.dots { display: flex; gap: 6px; }
+.dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--line); display: block; }
+.run-title { font: 600 0.78rem/1 var(--mono); color: var(--muted); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rerun { font: 600 0.72rem/1 var(--mono); color: var(--accent); background: transparent; border: 1px solid var(--line); border-radius: 6px; padding: 6px 8px; cursor: pointer; }
+.rerun:hover { border-color: var(--accent); }
+.run-body { padding: 16px 18px 18px; font: 400 0.86rem/1.75 var(--mono); }
+.cmd { color: var(--muted); }
+.cmd b { color: var(--accent); font-weight: 600; }
+.tl { display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 10px; align-items: baseline; }
+.tl .st { color: var(--pass); }
+.tl .nm { color: var(--ink); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tl .val { color: var(--pass); font-weight: 600; text-align: right; }
+.tl.pending .st, .tl.pending .val { color: var(--muted); }
+.tl.pending .nm { color: var(--muted); }
+.tl.queued { opacity: 0.25; }
+.summary { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--line); display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; }
+.badge { font: 600 0.75rem/1 var(--mono); padding: 6px 10px; border-radius: 999px; background: var(--pass); color: var(--accent-ink); letter-spacing: 0.06em; }
+.summary.running .badge { background: var(--line); color: var(--muted); }
+.summary .meta { color: var(--muted); font-size: 0.8rem; }
+
+/* Sections */
+section { display: grid; gap: 26px; scroll-margin-top: 24px; }
+.sec-head { display: grid; gap: 8px; }
+.sec-head h2 { font-size: clamp(1.8rem, 3.8vw, 2.6rem); font-weight: 800; letter-spacing: -0.02em; }
+.sec-head p { color: var(--muted); max-width: 64ch; }
+
 /* Ask console */
-.console { width: 100%; max-width: 720px; display: grid; gap: 14px; margin-top: 10px; }
+.ask-wrap { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: 36px; align-items: start; }
+.console { display: grid; gap: 14px; min-width: 0; }
 .ask { display: flex; gap: 8px; align-items: center; background: var(--surface); border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 20px; }
 .ask input { flex: 1; min-width: 0; background: transparent; border: 0; color: var(--ink); font: 400 1rem/1.4 var(--body); padding: 10px 0; }
 .ask input::placeholder { color: var(--muted); }
 .ask input:focus { outline: none; }
-.ask:focus-within { border-color: var(--accent); }
+.ask:focus-within { border-color: var(--accent); box-shadow: 0 0 0 4px var(--glow-a); }
 .send { width: 42px; height: 42px; border-radius: 50%; border: 0; background: var(--accent); cursor: pointer; display: grid; place-items: center; flex: none; }
 .send svg { width: 18px; height: 18px; stroke: var(--accent-ink); fill: none; stroke-width: 2.4; }
-.chips { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px; }
-.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; font: 500 0.88rem/1 var(--body); cursor: pointer; display: inline-flex; gap: 7px; align-items: center; }
+.chips { display: flex; flex-wrap: wrap; gap: 8px; }
+.chip { border: 1px solid var(--line); background: var(--surface); border-radius: 10px; padding: 8px 12px; font: 500 0.88rem/1 var(--body); cursor: pointer; display: inline-flex; gap: 7px; align-items: center; transition: border-color 0.15s ease, transform 0.15s ease; }
 .chip span { font-family: var(--mono); color: var(--accent); font-size: 0.8rem; }
-.chip:hover, .chip[aria-pressed="true"] { border-color: var(--accent); }
-
-.thread { display: grid; gap: 12px; text-align: left; }
+.chip:hover { border-color: var(--accent); transform: translateY(-1px); }
+.chip[aria-pressed="true"] { border-color: var(--accent); background: var(--surface-2); }
+.thread { display: grid; gap: 12px; }
 .msg-q { justify-self: end; background: var(--surface-2); border: 1px solid var(--line); border-radius: 14px 14px 4px 14px; padding: 10px 14px; max-width: 85%; font-weight: 500; }
 .msg-a { background: var(--surface); border: 1px solid var(--line); border-radius: 14px 14px 14px 4px; padding: 18px 20px; display: grid; gap: 10px; min-width: 0; }
 .msg-a ul { margin: 0; padding-left: 18px; display: grid; gap: 6px; }
 .msg-a .src { font: 400 0.75rem/1.4 var(--mono); color: var(--muted); }
 .msg-a .src b { color: var(--pass); font-weight: 600; }
-.hint { color: var(--muted); font-size: 0.9rem; text-align: center; }
+.typing { display: inline-flex; gap: 5px; padding: 4px 0; }
+.typing i { width: 7px; height: 7px; border-radius: 50%; background: var(--muted); display: block; }
+.next { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.next .label { margin-right: 4px; }
+.next .chip { font-size: 0.82rem; padding: 7px 10px; }
 
-/* Profile sections */
-section { display: grid; gap: 26px; scroll-margin-top: 24px; }
-.sec-head { display: grid; gap: 8px; }
-.sec-head h2 { font-size: clamp(1.7rem, 3.6vw, 2.4rem); font-weight: 800; letter-spacing: -0.015em; }
-
-.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
-.stat { background: var(--surface); padding: 20px; display: grid; gap: 6px; }
-.stat b { font: 600 1.7rem/1 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
-.stat b s { color: var(--muted); font-weight: 400; font-size: 1.1rem; margin-right: 6px; }
+/* Stats */
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; }
+.stat { background: var(--surface); padding: 22px; display: grid; gap: 6px; }
+.stat b { font: 600 2rem/1 var(--mono); font-variant-numeric: tabular-nums; color: var(--ink); }
+.stat b s { color: var(--muted); font-weight: 400; font-size: 1.2rem; margin-right: 6px; }
+.stat:first-child b, .stat:nth-child(3) b { color: var(--pass); }
 .stat span { color: var(--muted); font-size: 0.92rem; }
 
+/* Seed-a-bug playground */
+.lab { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 16px; }
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; align-content: start; min-width: 0; }
+.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.code { margin: 0; padding: 14px 0; background: var(--code-bg); font: 400 0.84rem/1.7 var(--mono); font-variant-ligatures: none; overflow-x: auto; }
+.code .ln { display: block; padding: 0 16px; white-space: pre; }
+.code .ln::before { content: attr(data-n); display: inline-block; width: 2ch; margin-right: 14px; color: var(--muted); opacity: 0.6; text-align: right; }
+.code .ln.mut { background: var(--fail-soft); box-shadow: inset 3px 0 0 var(--fail); }
+.code .kw { color: var(--accent); }
+.code .str { color: var(--warn); }
+.code .num { color: var(--pass); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 16px; border-top: 1px solid var(--line); align-items: center; }
+.controls select { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; min-width: 0; flex: 1 1 200px; }
+.tests { list-style: none; margin: 0; padding: 8px 0; }
+.t { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; padding: 9px 16px; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
+.t:last-child { border-bottom: 0; }
+.t .ic { font: 600 0.9rem/1.5 var(--mono); }
+.t.pass .ic { color: var(--pass); }
+.t.fail { background: var(--fail-soft); }
+.t.fail .ic { color: var(--fail); }
+.t.idle .ic { color: var(--muted); }
+.t .ev { grid-column: 2; font: 400 0.78rem/1.5 var(--mono); color: var(--fail); overflow-wrap: anywhere; }
+.t.weak .nm::after { content: "weak test"; margin-left: 8px; font: 600 0.66rem/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--warn); border: 1px solid var(--warn); border-radius: 999px; padding: 2px 6px; vertical-align: 2px; }
+.verdict { padding: 14px 16px; border-top: 1px solid var(--line); font-size: 0.93rem; color: var(--muted); }
+.verdict b { color: var(--ink); }
+.verdict.caught b.k { color: var(--pass); }
+.verdict.missed b.k { color: var(--fail); }
+
+/* Work and projects */
 .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.case { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 22px; display: grid; gap: 12px; align-content: start; }
-.case h3 { font-size: 1.2rem; font-weight: 800; }
+.case { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 12px; align-content: start; transition: border-color 0.2s ease, transform 0.2s ease; }
+.case:hover { border-color: var(--accent); transform: translateY(-2px); }
+.case h3 { font-size: 1.22rem; font-weight: 800; }
 .result { font: 600 0.82rem/1.3 var(--mono); color: var(--pass); }
 .tags { display: flex; flex-wrap: wrap; gap: 6px; }
 .tag { font: 400 0.76rem/1 var(--mono); padding: 6px 8px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); }
 
 .projects { display: grid; gap: 16px; }
-.proj { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 26px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 28px; }
+.proj { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 26px; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 28px; }
 .proj-main, .proj-side { display: grid; gap: 12px; align-content: start; min-width: 0; }
-.proj h3 { font-size: 1.45rem; font-weight: 800; }
-.kind { justify-self: start; font: 600 0.72rem/1 var(--mono); letter-spacing: 0.06em; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 6px 10px; }
+.proj h3 { font-size: 1.5rem; font-weight: 800; }
+.kind { justify-self: start; font: 600 0.72rem/1 var(--mono); letter-spacing: 0.06em; border: 1px solid currentColor; border-radius: 999px; padding: 6px 10px; }
+.kind.work { color: var(--accent); }
+.kind.private { color: var(--warn); }
+.kind.open { color: var(--pass); }
 .proj ul { margin: 0; padding-left: 18px; display: grid; gap: 7px; font-size: 0.95rem; color: var(--muted); }
 .proj ul b { color: var(--ink); font-weight: 600; }
 .note { font-size: 0.85rem; color: var(--muted); }
+.arch { display: grid; gap: 8px; padding: 14px; background: var(--code-bg); border: 1px solid var(--line); border-radius: 10px; font: 400 0.74rem/1.3 var(--mono); }
+.arch-row { display: grid; grid-template-columns: 7.5ch minmax(0, 1fr); gap: 10px; align-items: center; }
+.arch-row .lbl { color: var(--muted); }
+.arch-row .nodes { display: flex; flex-wrap: wrap; gap: 6px; }
+.node { padding: 5px 8px; border-radius: 6px; border: 1px solid var(--line); background: var(--surface); color: var(--ink); }
+.node.o { border-color: var(--accent); color: var(--accent); }
+.node.s { border-color: var(--pass); color: var(--pass); }
+.arrow-down { color: var(--muted); padding-left: calc(7.5ch + 18px); line-height: 1; }
 
+/* Experience, stack, education, contact */
 .log { display: grid; border-top: 1px solid var(--line); }
 .entry { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 24px; padding: 20px 0; border-bottom: 1px solid var(--line); }
 .when { font: 400 0.86rem/1.5 var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -141,27 +234,40 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 .entry .org { color: var(--muted); font-size: 0.93rem; margin-top: 4px; }
 .entry ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 5px; color: var(--muted); }
 .entry li span { color: var(--ink); }
-
 .tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 28px; }
 .tools > div { display: grid; gap: 10px; align-content: start; }
-
-.contact { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 32px; display: grid; gap: 20px; }
+.contact { position: relative; isolation: isolate; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 36px; display: grid; gap: 20px; }
+.contact::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 90% at 100% 0%, var(--glow-a), transparent 70%); }
 .channels { display: flex; flex-wrap: wrap; gap: 12px; }
-.channel { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; min-width: 0; }
+.channel { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; min-width: 0; background: var(--bg); }
 .channel .val { font: 600 0.95rem/1.3 var(--mono); overflow-wrap: anywhere; }
 .copy { font: 600 0.75rem/1 var(--mono); color: var(--accent); background: transparent; border: 1px solid var(--accent); border-radius: 6px; padding: 6px 9px; cursor: pointer; }
 footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
+@media (max-width: 860px) {
+  .hero, .ask-wrap, .lab { grid-template-columns: minmax(0, 1fr); }
+  .hero { gap: 32px; }
+}
 @media (max-width: 720px) {
-  main { padding-block: 64px 56px; gap: 64px; }
+  main { padding-block: 64px 56px; gap: 72px; }
   .stats, .cases, .tools, .proj { grid-template-columns: minmax(0, 1fr); }
   .proj { padding: 20px; gap: 18px; }
   .entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
-  .contact { padding: 22px; }
+  .contact { padding: 24px; }
+  .run-body { font-size: 0.8rem; padding: 14px; }
 }
 @media (prefers-reduced-motion: no-preference) {
   .msg-a { animation: rise 0.35s ease-out both; }
-  @keyframes rise { from { opacity: 0.2; transform: translateY(6px); } to { opacity: 1; transform: none; } }
+  .reveal.in { animation: rise 0.6s cubic-bezier(.2,.7,.2,1) both; }
+  .tl.pending .st { animation: spin 0.8s linear infinite; display: inline-block; }
+  .typing i { animation: blink 1s infinite both; }
+  .typing i:nth-child(2) { animation-delay: 0.15s; }
+  .typing i:nth-child(3) { animation-delay: 0.3s; }
+  .t.flash { animation: flash 0.5s ease-out; }
+  @keyframes rise { from { opacity: 0.25; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
+  @keyframes flash { from { background: var(--glow-a); } }
 }
 </style>
 </head>
@@ -175,46 +281,113 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
 <main>
   <header class="hero">
-    <div class="mono-badge" aria-hidden="true">KG</div>
-    <p class="hello">Hi, I'm Kishan Ghadiya</p>
-    <h1>Senior SDET <span class="dot">·</span> AI QA Agents</h1>
-    <p class="bio">I build <b>AI QA agents</b> that test alongside the team and I own <b>release quality</b> for ed-tech products used by school students. 5+ years of QA and test automation underneath. Ask me anything below: the answers come straight from my CV.</p>
-
-    <div class="cta">
-      <a class="btn primary" href="Kishan_Ghadiya_Senior_SDET.pdf" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download CV</a>
-      <a class="btn" href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>LinkedIn</a>
-      <button class="btn" type="button" id="copy-email-hero" data-target="v-email">
-        <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Copy email</button>
+    <div class="glow" aria-hidden="true"></div>
+    <div class="hero-text">
+      <div class="who">
+        <div class="mono-badge" aria-hidden="true">KG</div>
+        <p class="hello">Hi, I'm<b>Kishan Ghadiya</b></p>
+      </div>
+      <h1>Senior SDET.<br><span class="grad-text">I build AI QA agents.</span></h1>
+      <p class="bio">My agents <b>test alongside the team</b>, and I own <b>release quality</b> for ed-tech products used by school students. I don't sign off on "looks fine": I want evidence. 5+ years of QA and test automation underneath.</p>
+      <div class="cta">
+        <a class="btn primary" href="Kishan_Ghadiya_Senior_SDET.pdf" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download CV</a>
+        <a class="btn" href="#lab">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>Seed a bug</a>
+        <a class="btn" href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>LinkedIn</a>
+        <button class="btn" type="button" id="copy-email-hero" data-target="v-email">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>Copy email</button>
+      </div>
     </div>
 
-    <div class="console">
-      <form class="ask" id="ask-form" autocomplete="off">
-        <label for="ask-input" class="label" style="position:absolute;left:-9999px">Ask about my work</label>
-        <input id="ask-input" type="text" placeholder="Ask me anything about my work…" maxlength="200">
-        <button class="send" type="submit" aria-label="Ask">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
-        </button>
-      </form>
-      <div class="chips" id="chips"></div>
-      <div class="thread" id="thread" aria-live="polite"></div>
+    <div class="run" aria-label="Career run summary, styled as a test run">
+      <div class="run-bar">
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+        <span class="run-title">ci / career · main</span>
+        <button class="rerun" type="button" id="rerun">↻ Re-run</button>
+      </div>
+      <div class="run-body">
+        <div class="cmd">$ <b>qa run</b> --profile kishan-ghadiya</div>
+        <div id="run-lines">
+          <div class="tl"><span class="st">✓</span><span class="nm">build verification time</span><span class="val">2h → 30m</span></div>
+          <div class="tl"><span class="st">✓</span><span class="nm">automated tests built</span><span class="val">500+</span></div>
+          <div class="tl"><span class="st">✓</span><span class="nm">xray test cases owned</span><span class="val">3000+</span></div>
+          <div class="tl"><span class="st">✓</span><span class="nm">test execution cycles</span><span class="val">~300</span></div>
+          <div class="tl"><span class="st">✓</span><span class="nm">defects logged with RCA</span><span class="val">~1500</span></div>
+          <div class="tl"><span class="st">✓</span><span class="nm">ei mira releases, critical escapes</span><span class="val">10 · 0</span></div>
+          <div class="tl"><span class="st">✓</span><span class="nm">QA engineers mentored</span><span class="val">5</span></div>
+        </div>
+        <div class="summary" id="run-summary"><span class="badge">PASSED 7/7</span><span class="meta">5+ yrs · Ahmedabad · ready to ship</span></div>
+      </div>
     </div>
   </header>
 
-  <section id="impact" aria-labelledby="impact-h">
-    <div class="sec-head"><span class="label">Impact</span><h2 id="impact-h">The numbers</h2></div>
-    <div class="stats">
-      <div class="stat"><b><s>2 h</s>30 min</b><span>Build verification per build, with AI agents</span></div>
-      <div class="stat"><b>500+</b><span>Automated test cases built</span></div>
-      <div class="stat"><b>0</b><span>Critical escapes across 10 Ei Mira releases</span></div>
-      <div class="stat"><b>3000+</b><span>Xray test cases owned</span></div>
-      <div class="stat"><b>~300</b><span>Test execution cycles run</span></div>
-      <div class="stat"><b>~1500</b><span>Defects logged with root-cause analysis</span></div>
+  <section id="ask" class="reveal" aria-labelledby="ask-h">
+    <div class="ask-wrap">
+      <div class="sec-head">
+        <span class="label">Ask me anything</span>
+        <h2 id="ask-h">Question my CV</h2>
+        <p>Type a question or tap a topic. Answers come straight from my CV, each with its source. If I don't have something, the page says so.</p>
+      </div>
+      <div class="console">
+        <form class="ask" id="ask-form" autocomplete="off">
+          <label for="ask-input" class="label" style="position:absolute;left:-9999px">Ask about my work</label>
+          <input id="ask-input" type="text" placeholder="e.g. Have you led a team?" maxlength="200">
+          <button class="send" type="submit" aria-label="Ask">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+          </button>
+        </form>
+        <div class="chips" id="chips"></div>
+        <div class="thread" id="thread" aria-live="polite"></div>
+      </div>
     </div>
   </section>
 
-  <section id="work" aria-labelledby="work-h">
+  <section id="impact" class="reveal" aria-labelledby="impact-h">
+    <div class="sec-head"><span class="label">Impact</span><h2 id="impact-h">The numbers</h2></div>
+    <div class="stats">
+      <div class="stat"><b><s>2 h</s>30 min</b><span>Build verification per build, with AI agents</span></div>
+      <div class="stat"><b data-count="500" data-suffix="+">500+</b><span>Automated test cases built</span></div>
+      <div class="stat"><b>0</b><span>Critical escapes across 10 Ei Mira releases</span></div>
+      <div class="stat"><b data-count="3000" data-suffix="+">3000+</b><span>Xray test cases owned</span></div>
+      <div class="stat"><b data-count="300" data-prefix="~">~300</b><span>Test execution cycles run</span></div>
+      <div class="stat"><b data-count="1500" data-prefix="~">~1500</b><span>Defects logged with root-cause analysis</span></div>
+    </div>
+  </section>
+
+  <section id="lab" class="reveal" aria-labelledby="lab-h">
+    <div class="sec-head">
+      <span class="label">Try it</span>
+      <h2 id="lab-h">Seed a bug. Watch the tests catch it.</h2>
+      <p>A test only proves something if it can fail. Pick a bug, inject it into this small cart function and run the suite. The tests really execute in your browser. Notice the weak test: it passes no matter what.</p>
+    </div>
+    <div class="lab">
+      <div class="panel">
+        <div class="panel-head"><span class="label">cart.js</span><span class="label" id="code-state">correct code</span></div>
+        <pre class="code" id="code" aria-label="Function under test"></pre>
+        <div class="controls">
+          <label for="bug" class="label" style="position:absolute;left:-9999px">Bug to inject</label>
+          <select id="bug">
+            <option value="none">No bug (correct code)</option>
+            <option value="qty">Bug: ignore item quantity</option>
+            <option value="double">Bug: apply the discount twice</option>
+            <option value="anycoupon">Bug: accept any coupon</option>
+            <option value="rounding">Bug: drop the rounding</option>
+          </select>
+          <button class="btn primary" type="button" id="run-tests">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg>Run tests</button>
+        </div>
+      </div>
+      <div class="panel">
+        <div class="panel-head"><span class="label">cart.test.js</span><span class="label" id="test-count">6 tests</span></div>
+        <ul class="tests" id="tests"></ul>
+        <div class="verdict" id="verdict">Pick a bug and press <b>Run tests</b>.</div>
+      </div>
+    </div>
+  </section>
+
+  <section id="work" class="reveal" aria-labelledby="work-h">
     <div class="sec-head"><span class="label">Selected work</span><h2 id="work-h">Results at work</h2></div>
     <div class="cases">
       <article class="case">
@@ -244,12 +417,12 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     </div>
   </section>
 
-  <section id="projects" aria-labelledby="proj-h">
+  <section id="projects" class="reveal" aria-labelledby="proj-h">
     <div class="sec-head"><span class="label">Projects</span><h2 id="proj-h">Things I've built</h2></div>
     <div class="projects">
       <article class="proj">
         <div class="proj-main">
-          <span class="kind">Work · internal tool</span>
+          <span class="kind work">Work · internal tool</span>
           <h3>QA release agents</h3>
           <p>AI agents the QA team uses every day to verify bug fixes and run spec-driven tests, built at Educational Initiatives on Claude and MCP.</p>
           <p class="result">Web + Android · regression suite of 44 tests</p>
@@ -268,17 +441,24 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
       <article class="proj">
         <div class="proj-main">
-          <span class="kind">Personal · private repo</span>
+          <span class="kind private">Personal · private repo</span>
           <h3>AI QA Engineer toolkit</h3>
           <p>An agentic QA plugin for Claude Code that covers the QA lifecycle, from reading requirements to reporting metrics.</p>
-          <p class="result">5 specialist agents · 20 skills</p>
+          <p class="result">5 specialist agents · 20 skills · 11 benchmark suites</p>
+          <div class="arch" aria-label="Toolkit architecture">
+            <div class="arch-row"><span class="lbl">entry</span><div class="nodes"><span class="node o">qa-engineer (orchestrator)</span></div></div>
+            <div class="arrow-down" aria-hidden="true">↓</div>
+            <div class="arch-row"><span class="lbl">agents</span><div class="nodes"><span class="node">designer</span><span class="node">reviewer</span><span class="node">automation</span><span class="node">bug analyst</span></div></div>
+            <div class="arrow-down" aria-hidden="true">↓</div>
+            <div class="arch-row"><span class="lbl">skills</span><div class="nodes"><span class="node s">understand</span><span class="node s">design</span><span class="node s">execute</span><span class="node s">report</span><span class="node s">improve ↺</span></div></div>
+          </div>
         </div>
         <div class="proj-side">
           <span class="label">How it works</span>
           <ul>
             <li><b>Agents:</b> test case designer, test case reviewer, QA engineer, test automation engineer and bug analyst.</li>
             <li><b>Skills:</b> requirement review, Xray test case design, browser test execution, bug triage, regression scoping and QA metrics.</li>
-            <li><b>Quality:</b> eval benchmarks plus a self-improving lessons loop that refines the skills over time.</li>
+            <li><b>Quality:</b> 11 benchmark suites with planted bugs (30 of 33 runs pass) plus a self-improving lessons loop.</li>
             <li><b>Safety:</b> git hooks scan every commit so credentials and company data never enter the repo.</li>
           </ul>
           <div class="tags"><span class="tag">Claude Code</span><span class="tag">MCP</span><span class="tag">Python</span><span class="tag">Evals</span></div>
@@ -288,17 +468,17 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
       <article class="proj">
         <div class="proj-main">
-          <span class="kind">Personal · open source</span>
+          <span class="kind open">Personal · open source</span>
           <h3>This portfolio</h3>
-          <p>A one-page portfolio you can question. The ask box answers from my CV without any backend or paid API, and says so when it doesn't know.</p>
+          <p>A portfolio you can question and test. The ask box answers from my CV without any backend, and the bug lab runs real tests in your browser.</p>
           <p class="result">Static site · no backend · free hosting</p>
         </div>
         <div class="proj-side">
           <span class="label">How it works</span>
           <ul>
-            <li><b>Answers:</b> prewritten from my CV, picked by keyword matching, with a source label on each.</li>
+            <li><b>Answers:</b> prewritten from my CV, picked by keyword matching, with a source label and follow-up suggestions.</li>
+            <li><b>Bug lab:</b> five real tests plus one weak test against a small function, with four bugs you can inject.</li>
             <li><b>Honest gaps:</b> tools I haven't used get a clear "not on my CV" answer.</li>
-            <li><b>Details:</b> light and dark themes, a link preview card and a downloadable CV.</li>
           </ul>
           <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div>
           <p class="note"><a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">View the code on GitHub</a></p>
@@ -307,7 +487,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     </div>
   </section>
 
-  <section id="experience" aria-labelledby="exp-h">
+  <section id="experience" class="reveal" aria-labelledby="exp-h">
     <div class="sec-head"><span class="label">Experience</span><h2 id="exp-h">Educational Initiatives (Ei), Ahmedabad</h2></div>
     <div class="log">
       <div class="entry"><div class="when">Jul 2026 – Present</div><div><h3>Senior SDET</h3><ul>
@@ -326,7 +506,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     </div>
   </section>
 
-  <section id="stack" aria-labelledby="stack-h">
+  <section id="stack" class="reveal" aria-labelledby="stack-h">
     <div class="sec-head"><span class="label">Stack</span><h2 id="stack-h">Tools I work with</h2></div>
     <div class="tools">
       <div><span class="label">Test automation</span><div class="tags"><span class="tag">Cypress</span><span class="tag">Playwright</span><span class="tag">Rest Assured</span><span class="tag">Postman</span><span class="tag">Apidog</span></div></div>
@@ -338,7 +518,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     </div>
   </section>
 
-  <section id="education" aria-labelledby="edu-h">
+  <section id="education" class="reveal" aria-labelledby="edu-h">
     <div class="sec-head"><span class="label">Education</span><h2 id="edu-h">Education and certifications</h2></div>
     <div class="log">
       <div class="entry"><div class="when">2017</div><div><h3>B.E. in Electrical Engineering</h3><p class="org">Dr. Subhash University</p></div></div>
@@ -349,11 +529,12 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     </div>
   </section>
 
-  <section id="contact" class="contact" aria-labelledby="contact-h">
-    <div class="sec-head"><span class="label">Contact</span><h2 id="contact-h">Let's talk testing</h2></div>
+  <section id="contact" class="contact reveal" aria-labelledby="contact-h">
+    <div class="sec-head"><span class="label">Contact</span><h2 id="contact-h">Let's talk testing</h2><p>Hiring for an SDET or QA automation role? I'd like to hear about it.</p></div>
     <div class="channels">
       <div class="channel"><span class="val" id="v-email">ksghadia@gmail.com</span><button class="copy" type="button" id="copy-email" data-target="v-email">Copy</button></div>
       <a class="channel" href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener"><span class="val">linkedin.com/in/kishan-ghadiya</span></a>
+      <a class="channel" href="Kishan_Ghadiya_Senior_SDET.pdf" target="_blank" rel="noopener"><span class="val">Download CV (PDF)</span></a>
     </div>
   </section>
 
@@ -362,6 +543,8 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
 <script>
 (function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   // Theme toggle (remembered per visitor when storage is available)
   var root = document.documentElement;
   try { var saved = localStorage.getItem('kg-theme'); if (saved) root.setAttribute('data-theme', saved); } catch (e) {}
@@ -373,89 +556,115 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     try { localStorage.setItem('kg-theme', next); } catch (e) {}
   });
 
-  // Prewritten answers, all taken from the CV.
+  // ---- Live test run in the hero ----
+  var lines = Array.prototype.slice.call(document.querySelectorAll('#run-lines .tl'));
+  var summary = document.getElementById('run-summary');
+  var runTimer = null;
+  function playRun() {
+    if (reduce) return;
+    clearTimeout(runTimer);
+    var badge = summary.querySelector('.badge');
+    lines.forEach(function (l) { l.className = 'tl queued'; l.querySelector('.st').textContent = '◌'; });
+    summary.classList.add('running'); badge.textContent = 'RUNNING';
+    var i = 0;
+    function step() {
+      if (i > 0) { var prev = lines[i - 1]; prev.className = 'tl'; prev.querySelector('.st').textContent = '✓'; }
+      if (i < lines.length) {
+        lines[i].className = 'tl pending'; lines[i].querySelector('.st').textContent = '◐';
+        i++; runTimer = setTimeout(step, 360);
+      } else {
+        summary.classList.remove('running'); badge.textContent = 'PASSED ' + lines.length + '/' + lines.length;
+      }
+    }
+    runTimer = setTimeout(step, 250);
+  }
+  document.getElementById('rerun').addEventListener('click', playRun);
+  playRun();
+
+  // ---- Ask console: prewritten answers, all taken from the CV ----
   var KB = [
-    { id: 'ai', chip: 'AI agents', q: 'What AI QA agents have you built?',
+    { id: 'ai', chip: 'AI agents', q: 'What AI QA agents have you built?', next: ['bvt', 'projects'],
       keys: ['ai', 'agent', 'agents', 'llm', 'claude', 'mcp', 'bot', 'automation ai', 'verifier', 'adb'],
       a: '<p>I build QA agents on Claude and MCP that the team uses day to day:</p><ul>' +
          '<li><b>Build verification</b> with AI agents: from about 2 hours to 30 minutes per build.</li>' +
          '<li>A <b>Jira bug verifier</b> that checks a fix is ready to test and posts evidence back to the ticket.</li>' +
          '<li>A <b>spec-driven web-app tester</b> with Playwright replays, read only database checks and live Xray updates.</li>' +
          '<li><b>Android verification over adb</b>, backed by a regression suite of 44 tests.</li></ul>' },
-    { id: 'bvt', chip: 'Build verification', q: 'How did you speed up build verification?',
+    { id: 'bvt', chip: 'Build verification', q: 'How did you speed up build verification?', next: ['ai', 'numbers'],
       keys: ['bvt', 'build', 'verification', 'smoke', 'faster', 'speed', 'time', 'hours', 'minutes'],
       a: '<p>Build verification testing used to take about <b>2 hours</b> per build. I automated it with AI agents that run the checks and report the results, and it now takes <b>30 minutes</b>, a 75% cut.</p>' },
-    { id: 'release', chip: 'Release quality', q: 'How do you handle release quality?',
+    { id: 'release', chip: 'Release quality', q: 'How do you handle release quality?', next: ['rca', 'numbers'],
       keys: ['release', 'releases', 'mira', 'production', 'escape', 'escapes', 'defect', 'defects', 'bug', 'bugs', 'quality', 'android', 'play store', 'apk'],
       a: '<p>From April to September 2026 I owned end-to-end QA for <b>10 Ei Mira Android releases</b>: staging and production regression, plus Play Store APK sanity.</p><ul>' +
          '<li><b>Zero critical defects</b> escaped to production.</li>' +
          '<li>Reported <b>55 defects</b>: 84% High or Highest priority, 87% fixed.</li>' +
          '<li>Caught release blockers such as a full login failure before release.</li></ul>' },
-    { id: 'lead', chip: 'Leadership', q: 'Have you led or mentored a team?',
+    { id: 'lead', chip: 'Leadership', q: 'Have you led or mentored a team?', next: ['fit', 'experience'],
       keys: ['lead', 'leader', 'leadership', 'mentor', 'mentored', 'mentoring', 'team', 'manage', 'manager', 'senior'],
       a: '<p>I am the <b>acting QA lead for Mindspark 4.0</b>. I defined the test case process, review specs and test cases, mentor <b>5 QA engineers</b> with AI testing demos, and run our Automation sprint ceremonies.</p>' },
-    { id: 'automation', chip: 'Automation', q: 'What test automation have you done?',
+    { id: 'automation', chip: 'Automation', q: 'What test automation have you done?', next: ['ai', 'stack'],
       keys: ['cypress', 'playwright', 'automation', 'automated', 'framework', 'api', 'rest', 'postman', 'rest assured', 'jenkins', 'ci'],
       a: '<ul><li>Started <b>Cypress</b> GUI automation for core Mindspark flows and grew coverage to <b>500+ automated test cases</b>.</li>' +
          '<li>REST API testing with <b>Rest Assured</b> and <b>Postman</b>.</li>' +
          '<li>Regression runs in <b>Jenkins</b>.</li>' +
          '<li><b>Playwright</b> for the spec-driven web tests inside my AI agents.</li></ul>' },
-    { id: 'rca', chip: 'Debugging', q: 'How do you find root causes?',
+    { id: 'rca', chip: 'Debugging', q: 'How do you find root causes?', next: ['release', 'automation'],
       keys: ['rca', 'root', 'cause', 'debug', 'debugging', 'database', 'db', 'sql', 'data', 'log', 'logs', 'shift', 'shift-left', 'mongodb', 'mysql'],
       a: '<ul><li>Led <b>AI-assisted root-cause analysis</b> of high-priority production issues, driving a permanent fix to the adaptive logic for teacher-led schools.</li>' +
          '<li>Test below the UI at the <b>database layer</b>, catching corrupt attempt records before they reach students and teachers.</li>' +
          '<li><b>Shift-left</b>: testing starts at spec review, so high-risk defects are caught before builds reach QA.</li></ul>' },
-    { id: 'projects', chip: 'Projects', q: 'What projects have you built?',
-      keys: ['toolkit', 'plugin', 'project', 'projects', 'side', 'eval', 'benchmark', 'portfolio', 'site', 'website', 'github', 'built', 'build'],
+    { id: 'projects', chip: 'Projects', q: 'What projects have you built?', next: ['ai', 'fit'],
+      keys: ['toolkit', 'plugin', 'project', 'projects', 'side', 'eval', 'benchmark', 'portfolio', 'site', 'website', 'github', 'built'],
       a: '<ul><li><b>QA release agents</b> (work, internal): bug verifier, spec-driven web tester and Android checks over adb, backed by a regression suite of 44 tests.</li>' +
          '<li><b>AI QA Engineer toolkit</b> (personal, private repo): a Claude Code plugin with 5 specialist agents and 20 skills, eval benchmarks and a self-improving lessons loop. <a href="https://github.com/ksghadia/ai-qa-engineer-showcase" target="_blank" rel="noopener">See its architecture</a>.</li>' +
-         '<li><b>This portfolio</b> (open source): answers from my CV with no backend. <a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">See the code</a>.</li></ul>' +
+         '<li><b>This portfolio</b> (open source): answers from my CV with no backend, plus a bug lab. <a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">See the code</a>.</li></ul>' +
          '<p><a href="#projects">Jump to the Projects section</a></p>' },
-    { id: 'experience', chip: 'Experience', q: 'What is your experience?',
+    { id: 'experience', chip: 'Experience', q: 'What is your experience?', next: ['lead', 'edu'],
       keys: ['experience', 'career', 'years', 'history', 'job', 'jobs', 'work', 'company', 'ei', 'educational', 'mindspark', 'role', 'roles'],
       a: '<p>All at <b>Educational Initiatives (Ei)</b>, Ahmedabad, on Mindspark (adaptive-learning web platform) and the Ei Mira Android apps:</p><ul>' +
          '<li><b>Senior SDET</b>, Jul 2026 – Present</li>' +
          '<li><b>Test Engineer 2</b>, Jul 2024 – Jun 2026</li>' +
          '<li><b>Test Engineer</b>, Aug 2021 – Jun 2024</li>' +
          '<li>Junior Executive, Executive (non-QA), Apr 2019 – Jul 2021</li></ul>' },
-    { id: 'stack', chip: 'Stack', q: 'What is your tech stack?',
+    { id: 'stack', chip: 'Stack', q: 'What is your tech stack?', next: ['automation', 'ai'],
       keys: ['stack', 'tech', 'tools', 'tool', 'language', 'languages', 'javascript', 'python', 'git', 'jira', 'xray', 'bitbucket'],
       a: '<ul><li><b>Automation:</b> Cypress, Playwright, Rest Assured, Postman, Apidog</li>' +
          '<li><b>AI:</b> Claude Code, MCP, LLM agents</li>' +
          '<li><b>Languages:</b> JavaScript, Python, SQL</li>' +
          '<li><b>CI/CD and tools:</b> Jenkins, Git, Bitbucket, Jira, Xray</li>' +
          '<li><b>Databases:</b> MySQL, MongoDB</li></ul>' },
-    { id: 'numbers', chip: 'Numbers', q: 'What are your key numbers?',
+    { id: 'numbers', chip: 'Numbers', q: 'What are your key numbers?', next: ['release', 'bvt'],
       keys: ['numbers', 'metrics', 'stats', 'how many', 'count', 'test cases', 'executions', 'cycles'],
       a: '<ul><li><b>3000+</b> Xray test cases owned</li><li><b>~300</b> test execution cycles run</li>' +
          '<li><b>~1500</b> defects logged with root-cause analysis</li><li><b>500+</b> automated test cases built</li>' +
          '<li><b>2 h → 30 min</b> build verification</li></ul>' },
-    { id: 'fit', chip: 'Job fit', q: 'Why are you a fit for a Senior SDET role?',
+    { id: 'fit', chip: 'Job fit', q: 'Why are you a fit for a Senior SDET role?', next: ['projects', 'contact'],
       keys: ['fit', 'hire', 'why', 'senior sdet', 'sdet', 'strength', 'strengths', 'value'],
       a: '<ul><li><b>Automation:</b> 500+ automated tests across UI and API, Cypress and Playwright.</li>' +
          '<li><b>AI in testing:</b> agents the team uses daily, with measured time savings.</li>' +
          '<li><b>Ownership:</b> 10 releases with zero critical escapes.</li>' +
          '<li><b>Leadership:</b> acting QA lead, mentoring 5 QA engineers.</li>' +
          '<li><b>Depth:</b> root-cause analysis down to logs and databases.</li></ul>' },
-    { id: 'edu', chip: 'Education', q: 'What is your education?',
+    { id: 'edu', chip: 'Education', q: 'What is your education?', next: ['experience', 'contact'],
       keys: ['education', 'degree', 'college', 'university', 'certification', 'certifications', 'certificate', 'course'],
       a: '<ul><li><b>B.E. in Electrical Engineering</b>, Dr. Subhash University, 2017</li>' +
          '<li>Automation Testing Engineer (StarAgile)</li><li>API Testing using Postman, SoapUI and RestAssured (Udemy)</li>' +
          '<li>Manual Testing (LambdaTest)</li><li>Software Testing (Great Learning)</li></ul>' },
-    { id: 'gaps', hidden: true, chip: 'Other tools', q: 'Other tools',
+    { id: 'gaps', hidden: true, chip: 'Other tools', q: 'Other tools', next: ['automation', 'stack'],
       keys: ['selenium', 'java', 'testng', 'junit', 'appium', 'webdriver', 'docker', 'kubernetes', 'aws', 'azure', 'gcp', 'cloud', 'performance', 'load', 'jmeter', 'k6', 'gatling', 'loadrunner', 'typescript', 'c#', 'ruby'],
       a: '<p>That one isn\'t on my CV, so I won\'t claim it. Here is what I use in real work:</p><ul>' +
          '<li><b>UI automation:</b> Cypress and Playwright, in JavaScript and Python.</li>' +
          '<li><b>API testing:</b> Rest Assured, Postman and Apidog.</li>' +
          '<li><b>Mobile:</b> Android testing, including agent-driven checks over adb.</li>' +
          '<li><b>CI and data:</b> Jenkins, Git, MySQL, MongoDB.</li></ul>' },
-    { id: 'logistics', hidden: true, chip: 'Hiring details', q: 'Hiring details',
+    { id: 'logistics', hidden: true, chip: 'Hiring details', q: 'Hiring details', next: ['contact', 'fit'],
       keys: ['notice', 'period', 'salary', 'ctc', 'compensation', 'package', 'expected', 'availability', 'available', 'join', 'joining', 'relocate', 'relocation', 'remote', 'hybrid', 'onsite', 'on-site', 'location'],
       a: '<p>I\'m based in <b>Ahmedabad, India</b>, and my notice period is <b>60 days</b>. For compensation and other details, please email me at <b>ksghadia@gmail.com</b> or message me on <a href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">LinkedIn</a>, and I\'ll reply with the details.</p>' },
-    { id: 'contact', chip: 'Contact', q: 'How can I contact you?',
+    { id: 'contact', chip: 'Contact', q: 'How can I contact you?', next: ['fit', 'projects'],
       keys: ['contact', 'email', 'mail', 'reach', 'linkedin', 'hire', 'call', 'phone', 'connect'],
       a: '<p>Email <b>ksghadia@gmail.com</b> or message me on <a href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">LinkedIn</a>. I\'m based in Ahmedabad, India.</p>' }
   ];
+  var byId = {}; KB.forEach(function (k) { byId[k.id] = k; });
 
   var chips = document.getElementById('chips');
   var thread = document.getElementById('thread');
@@ -483,17 +692,27 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     return best;
   }
 
-  function answer(question, item) {
+  var answerTimer = null;
+  function answer(question, item, instant) {
+    clearTimeout(answerTimer);
     thread.innerHTML = '';
     var q = document.createElement('div'); q.className = 'msg-q'; q.textContent = question;
     var a = document.createElement('div'); a.className = 'msg-a';
-    if (item) {
-      a.innerHTML = item.a + '<p class="src">Source: <b>CV</b> · ' + esc(item.chip) + '</p>';
-    } else {
-      a.innerHTML = '<p>I don\'t have a prepared answer for that one. Try a topic below, or email me at <b>ksghadia@gmail.com</b>.</p>';
-    }
     thread.appendChild(q); thread.appendChild(a);
-    document.querySelectorAll('.chip').forEach(function (c) { c.setAttribute('aria-pressed', item && c.id === 'chip-' + item.id ? 'true' : 'false'); });
+    document.querySelectorAll('#chips .chip').forEach(function (c) { c.setAttribute('aria-pressed', item && c.id === 'chip-' + item.id ? 'true' : 'false'); });
+    function fill() {
+      if (item) {
+        var nextHtml = (item.next || []).map(function (id) { var n = byId[id]; return n ? '<button type="button" class="chip" data-next="' + id + '"><span>›</span>' + esc(n.chip) + '</button>' : ''; }).join('');
+        a.innerHTML = item.a + '<p class="src">Source: <b>CV</b> · ' + esc(item.chip) + '</p>' +
+          (nextHtml ? '<div class="next"><span class="label">Ask next</span>' + nextHtml + '</div>' : '');
+        a.querySelectorAll('[data-next]').forEach(function (b) { b.addEventListener('click', function () { var n = byId[b.getAttribute('data-next')]; answer(n.q, n); }); });
+      } else {
+        a.innerHTML = '<p>I don\'t have a prepared answer for that one. Try a topic above, or email me at <b>ksghadia@gmail.com</b>.</p>';
+      }
+    }
+    if (reduce || instant) { fill(); return; }
+    a.innerHTML = '<span class="typing" aria-label="Typing"><i></i><i></i><i></i></span>';
+    answerTimer = setTimeout(fill, 450);
   }
 
   document.getElementById('ask-form').addEventListener('submit', function (e) {
@@ -504,9 +723,124 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     input.value = '';
   });
 
-  // Open with one answer so the page shows what it does.
-  answer(KB[0].q, KB[0]);
+  // Open with one answer so the section shows what it does.
+  answer(KB[0].q, KB[0], true);
 
+  // ---- Seed-a-bug lab: the tests really run against the selected variant ----
+  var BASE = [
+    'function cartTotal(items, coupon) {',
+    '  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);',
+    "  const discount = coupon === 'SAVE10' ? subtotal * 0.10 : 0;",
+    '  return Math.round((subtotal - discount) * 100) / 100;',
+    '}'
+  ];
+  var VARIANTS = {
+    none: { line: -1, text: null,
+      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon === 'SAVE10' ? s * 0.10 : 0; return Math.round((s - d) * 100) / 100; } },
+    qty: { line: 1, text: '  const subtotal = items.reduce((s, i) => s + i.price, 0);', label: 'ignore item quantity',
+      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price; }, 0); var d = coupon === 'SAVE10' ? s * 0.10 : 0; return Math.round((s - d) * 100) / 100; } },
+    double: { line: 2, text: "  const discount = coupon === 'SAVE10' ? subtotal * 0.20 : 0;", label: 'apply the discount twice',
+      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon === 'SAVE10' ? s * 0.20 : 0; return Math.round((s - d) * 100) / 100; } },
+    anycoupon: { line: 2, text: '  const discount = coupon ? subtotal * 0.10 : 0;', label: 'accept any coupon',
+      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon ? s * 0.10 : 0; return Math.round((s - d) * 100) / 100; } },
+    rounding: { line: 3, text: '  return subtotal - discount;', label: 'drop the rounding',
+      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon === 'SAVE10' ? s * 0.10 : 0; return s - d; } }
+  };
+  var CART = [{ price: 100, qty: 2 }, { price: 50, qty: 1 }];
+  var TESTS = [
+    { name: 'adds price × quantity', expect: 250, run: function (f) { return f(CART); } },
+    { name: 'applies SAVE10 exactly once', expect: 225, run: function (f) { return f(CART, 'SAVE10'); } },
+    { name: 'ignores unknown coupons', expect: 250, run: function (f) { return f(CART, 'FREE'); } },
+    { name: 'rounds to two decimals', expect: 0.3, run: function (f) { return f([{ price: 0.1, qty: 1 }, { price: 0.2, qty: 1 }]); } },
+    { name: 'empty cart costs 0', expect: 0, run: function (f) { return f([]); } },
+    { name: 'returns a number', weak: true, run: function (f) { return f(CART); } }
+  ];
+
+  var codeEl = document.getElementById('code');
+  var testsEl = document.getElementById('tests');
+  var verdictEl = document.getElementById('verdict');
+  var bugSel = document.getElementById('bug');
+  var codeState = document.getElementById('code-state');
+
+  function highlight(src) {
+    // Escape only &, < and > so quote characters stay literal and digits inside entities can't be matched.
+    return src.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+      .replace(/('[^']*')/g, '<span class="str">$1</span>')
+      .replace(/\b(function|const|return)\b/g, '<span class="kw">$1</span>')
+      .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>');
+  }
+  function renderCode() {
+    var v = VARIANTS[bugSel.value];
+    codeEl.innerHTML = BASE.map(function (l, i) {
+      var mut = v.line === i;
+      return '<span class="ln' + (mut ? ' mut' : '') + '" data-n="' + (i + 1) + '">' + highlight(mut ? v.text : l) + '</span>';
+    }).join('');
+    codeState.textContent = v.line === -1 ? 'correct code' : 'bug injected: line ' + (v.line + 1);
+    codeState.style.color = v.line === -1 ? '' : 'var(--fail)';
+  }
+  function renderTests(results) {
+    testsEl.innerHTML = TESTS.map(function (t, i) {
+      var r = results ? results[i] : null;
+      var cls = 't' + (t.weak ? ' weak' : '') + (r ? (r.ok ? ' pass' : ' fail') : ' idle');
+      var ic = r ? (r.ok ? '✓' : '✗') : '○';
+      var ev = r && !r.ok ? '<span class="ev">expected ' + esc(String(t.expect)) + ', got ' + esc(String(r.got)) + '</span>' : '';
+      return '<li class="' + cls + '" id="t' + i + '"><span class="ic">' + ic + '</span><span class="nm">' + esc(t.name) + '</span>' + ev + '</li>';
+    }).join('');
+  }
+  function runTests() {
+    var v = VARIANTS[bugSel.value];
+    var results = TESTS.map(function (t) {
+      var got;
+      try { got = t.run(v.fn); } catch (e) { return { ok: false, got: 'error: ' + e.message }; }
+      return t.weak ? { ok: typeof got === 'number', got: got } : { ok: got === t.expect, got: got };
+    });
+    renderTests(results);
+    if (!reduce) testsEl.querySelectorAll('.t').forEach(function (el) { el.classList.add('flash'); });
+    var failed = TESTS.filter(function (t, i) { return !t.weak && !results[i].ok; });
+    var weakPassed = results[TESTS.length - 1].ok;
+    verdictEl.className = 'verdict';
+    if (v.line === -1) {
+      verdictEl.innerHTML = '<b class="k">All 5 meaningful tests pass.</b> Green on correct code is only half the proof: now inject a bug and check the suite can fail.';
+      verdictEl.classList.add('caught');
+    } else if (failed.length) {
+      verdictEl.innerHTML = '<b class="k">Bug caught.</b> "' + esc(v.label) + '" failed ' + failed.length + ' of 5 meaningful tests: ' +
+        failed.map(function (t) { return '<b>' + esc(t.name) + '</b>'; }).join(', ') + '.' +
+        (weakPassed ? ' The weak test still passed: it can\'t tell right from wrong, so it proves nothing.' : '');
+      verdictEl.classList.add('caught');
+    } else {
+      verdictEl.innerHTML = '<b class="k">Bug missed.</b> No test failed. That means the suite has a gap to fix.';
+      verdictEl.classList.add('missed');
+    }
+  }
+  bugSel.addEventListener('change', function () { renderCode(); renderTests(null); verdictEl.className = 'verdict'; verdictEl.innerHTML = 'Bug selected. Press <b>Run tests</b>.'; });
+  document.getElementById('run-tests').addEventListener('click', runTests);
+  renderCode(); renderTests(null);
+
+  // ---- Count-up numbers and section reveals (from a visible resting state) ----
+  function countUp(el) {
+    var target = +el.getAttribute('data-count'), pre = el.getAttribute('data-prefix') || '', suf = el.getAttribute('data-suffix') || '';
+    var start = null, dur = 1100;
+    function frame(ts) {
+      if (!start) start = ts;
+      var p = Math.min((ts - start) / dur, 1), eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = pre + Math.round(target * eased) + suf;
+      if (p < 1) requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        var el = en.target;
+        if (el.hasAttribute('data-count')) countUp(el); else el.classList.add('in');
+        io.unobserve(el);
+      });
+    }, { threshold: 0.2 });
+    document.querySelectorAll('.reveal, [data-count]').forEach(function (el) { io.observe(el); });
+  }
+
+  // ---- Copy email ----
   ['copy-email', 'copy-email-hero'].forEach(function (id) {
     var btn = document.getElementById(id);
     var original = btn.innerHTML;
