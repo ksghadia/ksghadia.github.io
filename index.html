@@ -36,6 +36,8 @@
   --fail: #ff7a72;
   --fail-soft: rgba(255, 122, 114, 0.12);
   --warn: #e7b85c;
+  --violet: #b59cff;
+  --blue: #6cb6ff;
   --code-bg: #0b1114;
   --glow-a: rgba(63, 193, 178, 0.22);
   --glow-b: rgba(135, 214, 143, 0.14);
@@ -49,14 +51,14 @@
   :root:not([data-theme="dark"]) {
     --bg: #f4f7f7; --surface: #ffffff; --surface-2: #eef3f3; --ink: #11232a; --muted: #55676d;
     --line: #d5dfe0; --accent: #0c7268; --accent-ink: #ffffff; --pass: #1f7a3a; --fail: #c4372d;
-    --fail-soft: rgba(196, 55, 45, 0.08); --warn: #9a6a10; --code-bg: #f0f4f4;
+    --fail-soft: rgba(196, 55, 45, 0.08); --warn: #9a6a10; --violet: #6b4fd1; --blue: #1f63b5; --code-bg: #f0f4f4;
     --glow-a: rgba(12, 114, 104, 0.14); --glow-b: rgba(31, 122, 58, 0.10); color-scheme: light;
   }
 }
 :root[data-theme="light"] {
   --bg: #f4f7f7; --surface: #ffffff; --surface-2: #eef3f3; --ink: #11232a; --muted: #55676d;
   --line: #d5dfe0; --accent: #0c7268; --accent-ink: #ffffff; --pass: #1f7a3a; --fail: #c4372d;
-  --fail-soft: rgba(196, 55, 45, 0.08); --warn: #9a6a10; --code-bg: #f0f4f4;
+  --fail-soft: rgba(196, 55, 45, 0.08); --warn: #9a6a10; --violet: #6b4fd1; --blue: #1f63b5; --code-bg: #f0f4f4;
   --glow-a: rgba(12, 114, 104, 0.14); --glow-b: rgba(31, 122, 58, 0.10); color-scheme: light;
 }
 
@@ -234,8 +236,35 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 .entry .org { color: var(--muted); font-size: 0.93rem; margin-top: 4px; }
 .entry ul { margin: 10px 0 0; padding-left: 18px; display: grid; gap: 5px; color: var(--muted); }
 .entry li span { color: var(--ink); }
-.tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px 28px; }
-.tools > div { display: grid; gap: 10px; align-content: start; }
+.toolgrid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.tool-card { position: relative; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 20px; display: grid; gap: 16px; align-content: start; transition: border-color 0.2s ease, transform 0.2s ease; }
+.tool-card::before { content: ""; position: absolute; inset: 0 0 auto; height: 3px; background: var(--c); opacity: 0.85; }
+.tool-card:hover { border-color: var(--c); transform: translateY(-2px); }
+.tc-head { display: flex; align-items: center; gap: 12px; }
+.tc-icon { width: 40px; height: 40px; border-radius: 10px; display: grid; place-items: center; flex: none; color: var(--c); border: 1px solid var(--c); background: var(--bg); }
+.tc-icon svg { width: 20px; height: 20px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.tc-head h3 { font-size: 1.05rem; font-weight: 800; }
+.tc-count { font: 400 0.74rem/1 var(--mono); color: var(--muted); margin-top: 4px; display: block; }
+.pills { display: flex; flex-wrap: wrap; gap: 7px; }
+.pill { display: inline-flex; align-items: center; gap: 7px; font: 500 0.84rem/1 var(--body); padding: 7px 11px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--line); color: var(--ink); }
+.pill::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--c); }
+
+.edu { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 16px; align-items: stretch; }
+.degree { position: relative; isolation: isolate; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: 26px; display: grid; gap: 14px; align-content: space-between; }
+.degree::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(70% 80% at 100% 0%, var(--glow-a), transparent 70%); }
+.degree-top { display: flex; justify-content: space-between; align-items: start; gap: 12px; }
+.cap { width: 48px; height: 48px; border-radius: 12px; display: grid; place-items: center; background: var(--grad); color: #0e1417; }
+.cap svg { width: 26px; height: 26px; stroke: currentColor; fill: none; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+.year { font: 600 2.6rem/1 var(--mono); color: var(--accent); letter-spacing: -0.02em; }
+.degree h3 { font-size: 1.45rem; font-weight: 800; }
+.degree .org { color: var(--muted); }
+.certs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.cert { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px; display: grid; grid-template-columns: 44px minmax(0, 1fr); gap: 12px; align-content: start; transition: border-color 0.2s ease, transform 0.2s ease; }
+.cert:hover { border-color: var(--c); transform: translateY(-2px); }
+.issuer { width: 44px; height: 44px; border-radius: 10px; display: grid; place-items: center; font: 800 0.9rem/1 var(--display); color: var(--c); border: 1px solid var(--c); background: var(--bg); }
+.cert h3 { font-size: 0.98rem; font-weight: 800; line-height: 1.25; }
+.cert .org { color: var(--muted); font-size: 0.86rem; margin-top: 3px; }
+.seal { grid-column: 2; justify-self: start; font: 600 0.68rem/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--pass); border: 1px solid var(--pass); border-radius: 999px; padding: 4px 8px; }
 .contact { position: relative; isolation: isolate; overflow: hidden; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 36px; display: grid; gap: 20px; }
 .contact::before { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(60% 90% at 100% 0%, var(--glow-a), transparent 70%); }
 .channels { display: flex; flex-wrap: wrap; gap: 12px; }
@@ -245,12 +274,13 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
 @media (max-width: 860px) {
-  .hero, .ask-wrap, .lab { grid-template-columns: minmax(0, 1fr); }
+  .hero, .ask-wrap, .lab, .edu { grid-template-columns: minmax(0, 1fr); }
+  .toolgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero { gap: 32px; }
 }
 @media (max-width: 720px) {
   main { padding-block: 64px 56px; gap: 72px; }
-  .stats, .cases, .tools, .proj { grid-template-columns: minmax(0, 1fr); }
+  .stats, .cases, .toolgrid, .proj, .certs { grid-template-columns: minmax(0, 1fr); }
   .proj { padding: 20px; gap: 18px; }
   .entry { grid-template-columns: minmax(0, 1fr); gap: 4px; }
   .contact { padding: 24px; }
@@ -508,24 +538,47 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
   <section id="stack" class="reveal" aria-labelledby="stack-h">
     <div class="sec-head"><span class="label">Stack</span><h2 id="stack-h">Tools I work with</h2></div>
-    <div class="tools">
-      <div><span class="label">Test automation</span><div class="tags"><span class="tag">Cypress</span><span class="tag">Playwright</span><span class="tag">Rest Assured</span><span class="tag">Postman</span><span class="tag">Apidog</span></div></div>
-      <div><span class="label">AI in testing</span><div class="tags"><span class="tag">Claude Code</span><span class="tag">MCP</span><span class="tag">LLM agents</span></div></div>
-      <div><span class="label">Programming</span><div class="tags"><span class="tag">JavaScript</span><span class="tag">Python</span><span class="tag">SQL</span></div></div>
-      <div><span class="label">CI/CD and tools</span><div class="tags"><span class="tag">Jenkins</span><span class="tag">Git</span><span class="tag">Bitbucket</span><span class="tag">Jira</span><span class="tag">Xray</span></div></div>
-      <div><span class="label">Databases</span><div class="tags"><span class="tag">MySQL</span><span class="tag">MongoDB</span></div></div>
-      <div><span class="label">Testing types</span><div class="tags"><span class="tag">Regression</span><span class="tag">Functional</span><span class="tag">Cross-browser</span><span class="tag">Mobile (Android)</span><span class="tag">Database</span><span class="tag">Shift-left</span><span class="tag">RCA</span></div></div>
+    <div class="toolgrid">
+      <article class="tool-card" style="--c: var(--accent)">
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 8h18M10 11.5l4 2.5-4 2.5z"/></svg></span><div><h3>Test automation</h3><span class="tc-count">5 tools</span></div></div>
+        <div class="pills"><span class="pill">Cypress</span><span class="pill">Playwright</span><span class="pill">Rest Assured</span><span class="pill">Postman</span><span class="pill">Apidog</span></div>
+      </article>
+      <article class="tool-card" style="--c: var(--violet)">
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M18.5 15.5l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8z"/></svg></span><div><h3>AI in testing</h3><span class="tc-count">3 tools</span></div></div>
+        <div class="pills"><span class="pill">Claude Code</span><span class="pill">MCP</span><span class="pill">LLM agents</span></div>
+      </article>
+      <article class="tool-card" style="--c: var(--blue)">
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M13.5 5l-3 14"/></svg></span><div><h3>Programming</h3><span class="tc-count">3 tools</span></div></div>
+        <div class="pills"><span class="pill">JavaScript</span><span class="pill">Python</span><span class="pill">SQL</span></div>
+      </article>
+      <article class="tool-card" style="--c: var(--warn)">
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-14.3 4.9M4 12a8 8 0 0 1 14.3-4.9"/><path d="M18.5 3v4.5H14M5.5 21v-4.5H10"/></svg></span><div><h3>CI/CD and tools</h3><span class="tc-count">5 tools</span></div></div>
+        <div class="pills"><span class="pill">Jenkins</span><span class="pill">Git</span><span class="pill">Bitbucket</span><span class="pill">Jira</span><span class="pill">Xray</span></div>
+      </article>
+      <article class="tool-card" style="--c: var(--pass)">
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><div><h3>Databases</h3><span class="tc-count">2 tools</span></div></div>
+        <div class="pills"><span class="pill">MySQL</span><span class="pill">MongoDB</span></div>
+      </article>
+      <article class="tool-card" style="--c: var(--fail)">
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M8 14h8"/></svg></span><div><h3>Testing types</h3><span class="tc-count">7 skills</span></div></div>
+        <div class="pills"><span class="pill">Regression</span><span class="pill">Functional</span><span class="pill">Cross-browser</span><span class="pill">Mobile (Android)</span><span class="pill">Database</span><span class="pill">Shift-left</span><span class="pill">RCA</span></div>
+      </article>
     </div>
   </section>
 
   <section id="education" class="reveal" aria-labelledby="edu-h">
     <div class="sec-head"><span class="label">Education</span><h2 id="edu-h">Education and certifications</h2></div>
-    <div class="log">
-      <div class="entry"><div class="when">2017</div><div><h3>B.E. in Electrical Engineering</h3><p class="org">Dr. Subhash University</p></div></div>
-      <div class="entry"><div class="when">Certification</div><div><h3>Automation Testing Engineer</h3><p class="org">StarAgile</p></div></div>
-      <div class="entry"><div class="when">Certification</div><div><h3>API Testing using Postman, SoapUI and RestAssured</h3><p class="org">Udemy</p></div></div>
-      <div class="entry"><div class="when">Certification</div><div><h3>Manual Testing</h3><p class="org">LambdaTest</p></div></div>
-      <div class="entry"><div class="when">Certification</div><div><h3>Software Testing</h3><p class="org">Great Learning</p></div></div>
+    <div class="edu">
+      <article class="degree">
+        <div class="degree-top"><span class="cap" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 2.7 3 6 3s6-1.5 6-3v-5M22 9v6"/></svg></span><span class="year">2017</span></div>
+        <div><span class="label">Degree</span><h3 style="margin-top:8px">B.E. in Electrical Engineering</h3><p class="org">Dr. Subhash University</p></div>
+      </article>
+      <div class="certs">
+        <article class="cert" style="--c: var(--accent)"><span class="issuer" aria-hidden="true">SA</span><div><h3>Automation Testing Engineer</h3><p class="org">StarAgile</p></div><span class="seal">✓ Certified</span></article>
+        <article class="cert" style="--c: var(--violet)"><span class="issuer" aria-hidden="true">U</span><div><h3>API Testing using Postman, SoapUI and RestAssured</h3><p class="org">Udemy</p></div><span class="seal">✓ Certified</span></article>
+        <article class="cert" style="--c: var(--blue)"><span class="issuer" aria-hidden="true">LT</span><div><h3>Manual Testing</h3><p class="org">LambdaTest</p></div><span class="seal">✓ Certified</span></article>
+        <article class="cert" style="--c: var(--warn)"><span class="issuer" aria-hidden="true">GL</span><div><h3>Software Testing</h3><p class="org">Great Learning</p></div><span class="seal">✓ Certified</span></article>
+      </div>
     </div>
   </section>
 
