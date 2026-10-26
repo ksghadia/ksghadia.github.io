@@ -684,6 +684,8 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
           <li>Acting QA lead for Mindspark 4.0; mentoring 5 QA engineers.</li>
           <li>Built the team's AI QA agents for web and Android.</li>
           <li>10 Ei Mira releases with zero critical escapes.</li>
+          <li>API tests for 76 REST endpoints in one sprint.</li>
+          <li>Root-cause analysis of 10+ production issues, fixes verified on staging and production.</li>
         </ul>
         <div class="tags"><span class="tag">AI agents</span><span class="tag">Claude</span><span class="tag">MCP</span><span class="tag">Playwright</span><span class="tag">adb</span><span class="tag">Xray</span></div>
       </article>
@@ -694,11 +696,13 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
           <div class="role-meta"><span>Jul 2024 – Jun 2026</span><span class="dur" data-start="2024-07" data-end="2026-06">2 yrs</span></div>
         </div>
         <ul class="wins">
+          <li>Owned QA of the Ei Mira adaptive learning logic from pilot to production: spec reviews, test plan, sign-off.</li>
+          <li>Build verification, regression and APK testing on every Ei Mira build.</li>
           <li>Started Cypress GUI automation; grew coverage to 500+ test cases.</li>
           <li>AI-assisted root-cause analysis that led to a permanent adaptive-logic fix.</li>
-          <li>Shift-left and database-layer testing; offline sync field tests on 20–30 devices.</li>
+          <li>Data checks across MongoDB, Elasticsearch and ClickHouse.</li>
         </ul>
-        <div class="tags"><span class="tag">Cypress</span><span class="tag">SQL</span><span class="tag">MongoDB</span><span class="tag">Android</span></div>
+        <div class="tags"><span class="tag">Cypress</span><span class="tag">Android</span><span class="tag">MongoDB</span><span class="tag">Elasticsearch</span><span class="tag">ClickHouse</span></div>
       </article>
 
       <article class="role">
@@ -707,10 +711,12 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
           <div class="role-meta"><span>Aug 2021 – Jun 2024</span><span class="dur" data-start="2021-08" data-end="2024-06">2 yrs 11 mos</span></div>
         </div>
         <ul class="wins">
-          <li>Functional, regression and cross-browser testing for Mindspark.</li>
-          <li>REST API testing with Rest Assured and Postman; regression in Jenkins.</li>
+          <li>Owned release testing and sign-off for Mindspark releases and hotfixes, with release notes for each.</li>
+          <li>Moved test cases into Jira Xray and wrote the regression checklist.</li>
+          <li>Tested the Mindspark 1.0 → 3.7 migration and regional-language releases on online and offline school servers.</li>
+          <li>REST API testing with Rest Assured and Postman; cross-browser and school-hardware testing.</li>
         </ul>
-        <div class="tags"><span class="tag">Rest Assured</span><span class="tag">Postman</span><span class="tag">Jenkins</span><span class="tag">Jira</span></div>
+        <div class="tags"><span class="tag">Xray</span><span class="tag">Rest Assured</span><span class="tag">Postman</span><span class="tag">MySQL</span><span class="tag">Jira</span></div>
       </article>
 
       <article class="role muted">
@@ -743,8 +749,8 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
         <div class="pills"><span class="pill">Jenkins</span><span class="pill">Git</span><span class="pill">Bitbucket</span><span class="pill">Jira</span><span class="pill">Xray</span></div>
       </article>
       <article class="tool-card" style="--c: var(--pass)">
-        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><div><h3>Databases</h3><span class="tc-count">2 tools</span></div></div>
-        <div class="pills"><span class="pill">MySQL</span><span class="pill">MongoDB</span></div>
+        <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="8" ry="3"/><path d="M4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></svg></span><div><h3>Databases</h3><span class="tc-count">4 tools</span></div></div>
+        <div class="pills"><span class="pill">MySQL</span><span class="pill">MongoDB</span><span class="pill">Elasticsearch</span><span class="pill">ClickHouse</span></div>
       </article>
       <article class="tool-card" style="--c: var(--fail)">
         <div class="tc-head"><span class="tc-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3M8 14h8"/></svg></span><div><h3>Testing types</h3><span class="tc-count">7 skills</span></div></div>
@@ -846,12 +852,14 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       keys: ['cypress', 'playwright', 'automation', 'automated', 'framework', 'api', 'rest', 'postman', 'rest assured', 'jenkins', 'ci'],
       a: '<ul><li>Started <b>Cypress</b> GUI automation for core Mindspark flows and grew coverage to <b>500+ automated test cases</b>.</li>' +
          '<li>REST API testing with <b>Rest Assured</b> and <b>Postman</b>.</li>' +
+         '<li>API tests for <b>76 REST endpoints</b> in one sprint.</li>' +
          '<li>Regression runs in <b>Jenkins</b>.</li>' +
          '<li><b>Playwright</b> for the spec-driven web tests inside my AI agents.</li></ul>' },
     { id: 'rca', chip: 'Debugging', q: 'How do you find root causes?', next: ['release', 'automation'],
       keys: ['rca', 'root', 'cause', 'debug', 'debugging', 'database', 'db', 'sql', 'data', 'log', 'logs', 'shift', 'shift-left', 'mongodb', 'mysql'],
       a: '<ul><li>Led <b>AI-assisted root-cause analysis</b> of high-priority production issues, driving a permanent fix to the adaptive logic for teacher-led schools.</li>' +
-         '<li>Test below the UI at the <b>database layer</b>, catching corrupt attempt records before they reach students and teachers.</li>' +
+         '<li>Root-cause analysis of <b>10+ production issues</b>, verifying each fix on staging and production.</li>' +
+         '<li>Test below the UI at the <b>database layer</b> (MongoDB, Elasticsearch, ClickHouse), catching corrupt attempt records before they reach students and teachers.</li>' +
          '<li><b>Shift-left</b>: testing starts at spec review, so high-risk defects are caught before builds reach QA.</li></ul>' },
     { id: 'projects', chip: 'Projects', q: 'What projects have you built?', next: ['ai', 'fit'],
       keys: ['toolkit', 'plugin', 'project', 'projects', 'side', 'eval', 'benchmark', 'portfolio', 'site', 'website', 'github', 'built'],
@@ -862,9 +870,9 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
     { id: 'experience', chip: 'Experience', q: 'What is your experience?', next: ['lead', 'edu'],
       keys: ['experience', 'career', 'years', 'history', 'job', 'jobs', 'work', 'company', 'ei', 'educational', 'mindspark', 'role', 'roles'],
       a: '<p>All at <b>Educational Initiatives (Ei)</b>, Ahmedabad, on Mindspark (adaptive-learning web platform) and the Ei Mira Android apps:</p><ul>' +
-         '<li><b>Senior SDET</b>, Jul 2026 – Present</li>' +
-         '<li><b>Test Engineer 2</b>, Jul 2024 – Jun 2026</li>' +
-         '<li><b>Test Engineer</b>, Aug 2021 – Jun 2024</li>' +
+         '<li><b>Senior SDET</b>, Jul 2026 – Present: AI build verification, acting QA lead for Mindspark 4.0, API automation and production root-cause analysis.</li>' +
+         '<li><b>Test Engineer 2</b>, Jul 2024 – Jun 2026: QA owner of the Ei Mira adaptive learning logic from pilot to production, and Cypress automation to 500+ tests.</li>' +
+         '<li><b>Test Engineer</b>, Aug 2021 – Jun 2024: Mindspark release testing and sign-off, Xray adoption, and the 1.0 → 3.7 migration on online and offline school servers.</li>' +
          '<li>Junior Executive, Executive (non-QA), Apr 2019 – Jul 2021</li></ul>' },
     { id: 'stack', chip: 'Stack', q: 'What is your tech stack?', next: ['automation', 'ai'],
       keys: ['stack', 'tech', 'tools', 'tool', 'language', 'languages', 'javascript', 'python', 'git', 'jira', 'xray', 'bitbucket'],
@@ -872,7 +880,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
          '<li><b>AI:</b> Claude Code, MCP, LLM agents</li>' +
          '<li><b>Languages:</b> JavaScript, Python, SQL</li>' +
          '<li><b>CI/CD and tools:</b> Jenkins, Git, Bitbucket, Jira, Xray</li>' +
-         '<li><b>Databases:</b> MySQL, MongoDB</li></ul>' },
+         '<li><b>Databases:</b> MySQL, MongoDB, Elasticsearch, ClickHouse</li></ul>' },
     { id: 'numbers', chip: 'Numbers', q: 'What are your key numbers?', next: ['release', 'bvt'],
       keys: ['numbers', 'metrics', 'stats', 'how many', 'count', 'test cases', 'executions', 'cycles'],
       a: '<ul><li><b>3000+</b> Xray test cases owned</li><li><b>~300</b> test execution cycles run</li>' +
@@ -896,7 +904,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
          '<li><b>UI automation:</b> Cypress and Playwright, in JavaScript and Python.</li>' +
          '<li><b>API testing:</b> Rest Assured, Postman and Apidog.</li>' +
          '<li><b>Mobile:</b> Android testing, including agent-driven checks over adb.</li>' +
-         '<li><b>CI and data:</b> Jenkins, Git, MySQL, MongoDB.</li></ul>' },
+         '<li><b>CI and data:</b> Jenkins, Git, MySQL, MongoDB, Elasticsearch, ClickHouse.</li></ul>' },
     { id: 'logistics', hidden: true, chip: 'Hiring details', q: 'Hiring details', next: ['contact', 'fit'],
       keys: ['notice', 'period', 'salary', 'ctc', 'compensation', 'package', 'expected', 'availability', 'available', 'join', 'joining', 'relocate', 'relocation', 'remote', 'hybrid', 'onsite', 'on-site', 'location'],
       a: '<p>I\'m based in <b>Ahmedabad, India</b>, and my notice period is <b>60 days</b>. For compensation and other details, please email me at <b>ksghadia@gmail.com</b> or message me on <a href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">LinkedIn</a>, and I\'ll reply with the details.</p>' },
