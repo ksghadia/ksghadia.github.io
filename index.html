@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kishan Ghadiya · Senior SDET</title>
-<meta name="description" content="Kishan Ghadiya, Senior SDET in Ahmedabad. I build AI QA agents and own release quality for ed-tech products. Seed a bug, run the tests, and ask the page about my work.">
+<meta name="description" content="Kishan Ghadiya, Senior SDET in Ahmedabad. I build AI QA agents and own release quality for ed-tech products. Ask the page about my work.">
 <meta property="og:title" content="Kishan Ghadiya · Senior SDET">
 <meta property="og:description" content="AI QA agents, test automation and release quality for ed-tech products.">
 <meta property="og:type" content="website">
@@ -22,7 +22,7 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
 <style>
 /* Layout: a test-run themed page. Hero with a live CI run, an ask console, the numbers,
-   a seed-a-bug playground that really executes tests, then the scannable profile. */
+   then the scannable profile. */
 :root {
   --bg: #0e1417;
   --surface: #151e22;
@@ -171,34 +171,6 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 .stat:first-child b, .stat:nth-child(3) b { color: var(--pass); }
 .stat span { color: var(--muted); font-size: 0.92rem; }
 
-/* Seed-a-bug playground */
-.lab { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: 16px; }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; overflow: hidden; display: grid; align-content: start; min-width: 0; }
-.panel-head { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 16px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-.code { margin: 0; padding: 14px 0; background: var(--code-bg); font: 400 0.84rem/1.7 var(--mono); font-variant-ligatures: none; overflow-x: auto; }
-.code .ln { display: block; padding: 0 16px; white-space: pre; }
-.code .ln::before { content: attr(data-n); display: inline-block; width: 2ch; margin-right: 14px; color: var(--muted); opacity: 0.6; text-align: right; }
-.code .ln.mut { background: var(--fail-soft); box-shadow: inset 3px 0 0 var(--fail); }
-.code .kw { color: var(--accent); }
-.code .str { color: var(--warn); }
-.code .num { color: var(--pass); }
-.controls { display: flex; flex-wrap: wrap; gap: 10px; padding: 14px 16px; border-top: 1px solid var(--line); align-items: center; }
-.controls select { background: var(--surface-2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 10px; min-width: 0; flex: 1 1 200px; }
-.tests { list-style: none; margin: 0; padding: 8px 0; }
-.t { display: grid; grid-template-columns: 22px minmax(0, 1fr); gap: 8px; padding: 9px 16px; border-bottom: 1px solid var(--line); font-size: 0.92rem; }
-.t:last-child { border-bottom: 0; }
-.t .ic { font: 600 0.9rem/1.5 var(--mono); }
-.t.pass .ic { color: var(--pass); }
-.t.fail { background: var(--fail-soft); }
-.t.fail .ic { color: var(--fail); }
-.t.idle .ic { color: var(--muted); }
-.t .ev { grid-column: 2; font: 400 0.78rem/1.5 var(--mono); color: var(--fail); overflow-wrap: anywhere; }
-.t.weak .nm::after { content: "weak test"; margin-left: 8px; font: 600 0.66rem/1 var(--mono); letter-spacing: 0.06em; text-transform: uppercase; color: var(--warn); border: 1px solid var(--warn); border-radius: 999px; padding: 2px 6px; vertical-align: 2px; }
-.verdict { padding: 14px 16px; border-top: 1px solid var(--line); font-size: 0.93rem; color: var(--muted); }
-.verdict b { color: var(--ink); }
-.verdict.caught b.k { color: var(--pass); }
-.verdict.missed b.k { color: var(--fail); }
-
 /* Work and projects */
 .cases { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
 .case { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 22px; display: grid; gap: 12px; align-content: start; transition: border-color 0.2s ease, transform 0.2s ease; }
@@ -346,7 +318,7 @@ section { display: grid; gap: 26px; scroll-margin-top: 24px; }
 footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
 @media (max-width: 860px) {
-  .hero, .ask-wrap, .lab, .edu, .exp-top { grid-template-columns: minmax(0, 1fr); }
+  .hero, .ask-wrap, .edu, .exp-top { grid-template-columns: minmax(0, 1fr); }
   .toolgrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .hero { gap: 32px; }
 }
@@ -370,7 +342,6 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   .typing i { animation: blink 1s infinite both; }
   .typing i:nth-child(2) { animation-delay: 0.15s; }
   .typing i:nth-child(3) { animation-delay: 0.3s; }
-  .t.flash { animation: flash 0.5s ease-out; }
   .live i { animation: pulse 1.6s ease-in-out infinite; }
   .reveal.in .ba .fill, .reveal.in .meter .fill { animation: fillx 1s cubic-bezier(.2,.7,.2,1) both; }
   .reveal.in .ba .fill.after { animation-delay: 0.25s; }
@@ -393,7 +364,6 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
   @keyframes rise { from { opacity: 0.25; transform: translateY(14px); } to { opacity: 1; transform: none; } }
   @keyframes spin { to { transform: rotate(360deg); } }
   @keyframes blink { 0%, 80%, 100% { opacity: 0.25; } 40% { opacity: 1; } }
-  @keyframes flash { from { background: var(--glow-a); } }
   @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.35; } }
   @keyframes fillx { from { transform: scaleX(0.05); } to { transform: none; } }
   @keyframes pop { from { transform: scale(0.6); opacity: 0.3; } to { transform: none; opacity: 1; } }
@@ -422,8 +392,6 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       <div class="cta">
         <a class="btn primary" href="Kishan_Ghadiya_Senior_SDET.pdf" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Download CV</a>
-        <a class="btn" href="#lab">
-          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 2 3h10a2 2 0 0 0 2-3l-5-9V3"/></svg>Seed a bug</a>
         <a class="btn" href="https://www.linkedin.com/in/kishan-ghadiya/" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 10v7M7 7v.01M11 17v-4a2 2 0 0 1 4 0v4M11 10v7"/><rect x="3" y="3" width="18" height="18" rx="3"/></svg>LinkedIn</a>
         <button class="btn" type="button" id="copy-email-hero" data-target="v-email">
@@ -483,37 +451,6 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       <div class="stat"><b data-count="3000" data-suffix="+">3000+</b><span>Xray test cases owned</span></div>
       <div class="stat"><b data-count="300" data-prefix="~">~300</b><span>Test execution cycles run</span></div>
       <div class="stat"><b data-count="1500" data-prefix="~">~1500</b><span>Defects logged with root-cause analysis</span></div>
-    </div>
-  </section>
-
-  <section id="lab" class="reveal" aria-labelledby="lab-h">
-    <div class="sec-head">
-      <span class="label">Try it</span>
-      <h2 id="lab-h">Seed a bug. Watch the tests catch it.</h2>
-      <p>A test only proves something if it can fail. Pick a bug, inject it into this small cart function and run the suite. The tests really execute in your browser. Notice the weak test: it passes no matter what.</p>
-    </div>
-    <div class="lab">
-      <div class="panel">
-        <div class="panel-head"><span class="label">cart.js</span><span class="label" id="code-state">correct code</span></div>
-        <pre class="code" id="code" aria-label="Function under test"></pre>
-        <div class="controls">
-          <label for="bug" class="label" style="position:absolute;left:-9999px">Bug to inject</label>
-          <select id="bug">
-            <option value="none">No bug (correct code)</option>
-            <option value="qty">Bug: ignore item quantity</option>
-            <option value="double">Bug: apply the discount twice</option>
-            <option value="anycoupon">Bug: accept any coupon</option>
-            <option value="rounding">Bug: drop the rounding</option>
-          </select>
-          <button class="btn primary" type="button" id="run-tests">
-            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg>Run tests</button>
-        </div>
-      </div>
-      <div class="panel">
-        <div class="panel-head"><span class="label">cart.test.js</span><span class="label" id="test-count">6 tests</span></div>
-        <ul class="tests" id="tests"></ul>
-        <div class="verdict" id="verdict">Pick a bug and press <b>Run tests</b>.</div>
-      </div>
     </div>
   </section>
 
@@ -618,14 +555,14 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
         <div class="proj-main">
           <span class="kind open">Personal · open source</span>
           <h3>This portfolio</h3>
-          <p>A portfolio you can question and test. The ask box answers from my CV without any backend, and the bug lab runs real tests in your browser.</p>
+          <p>A one-page portfolio you can question. The ask box answers from my CV without any backend or paid API, and says so when it doesn't know.</p>
           <p class="result">Static site · no backend · free hosting</p>
         </div>
         <div class="proj-side">
           <span class="label">How it works</span>
           <ul>
             <li><b>Answers:</b> prewritten from my CV, picked by keyword matching, with a source label and follow-up suggestions.</li>
-            <li><b>Bug lab:</b> five real tests plus one weak test against a small function, with four bugs you can inject.</li>
+            <li><b>Live run:</b> the hero plays a CI-style run of my career numbers, ending in PASSED.</li>
             <li><b>Honest gaps:</b> tools I haven't used get a clear "not on my CV" answer.</li>
           </ul>
           <div class="tags"><span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span></div>
@@ -839,7 +776,7 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
       keys: ['toolkit', 'plugin', 'project', 'projects', 'side', 'eval', 'benchmark', 'portfolio', 'site', 'website', 'github', 'built'],
       a: '<ul><li><b>QA release agents</b> (work, internal): bug verifier, spec-driven web tester and Android checks over adb, backed by a regression suite of 44 tests.</li>' +
          '<li><b>AI QA Engineer toolkit</b> (personal, private repo): a Claude Code plugin with 5 specialist agents and 20 skills, eval benchmarks and a self-improving lessons loop. <a href="https://github.com/ksghadia/ai-qa-engineer-showcase" target="_blank" rel="noopener">See its architecture</a>.</li>' +
-         '<li><b>This portfolio</b> (open source): answers from my CV with no backend, plus a bug lab. <a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">See the code</a>.</li></ul>' +
+         '<li><b>This portfolio</b> (open source): answers from my CV with no backend. <a href="https://github.com/ksghadia/ksghadia.github.io" target="_blank" rel="noopener">See the code</a>.</li></ul>' +
          '<p><a href="#projects">Jump to the Projects section</a></p>' },
     { id: 'experience', chip: 'Experience', q: 'What is your experience?', next: ['lead', 'edu'],
       keys: ['experience', 'career', 'years', 'history', 'job', 'jobs', 'work', 'company', 'ei', 'educational', 'mindspark', 'role', 'roles'],
@@ -947,96 +884,6 @@ footer { color: var(--muted); font-size: 0.85rem; text-align: center; }
 
   // Open with one answer so the section shows what it does.
   answer(KB[0].q, KB[0], true);
-
-  // ---- Seed-a-bug lab: the tests really run against the selected variant ----
-  var BASE = [
-    'function cartTotal(items, coupon) {',
-    '  const subtotal = items.reduce((s, i) => s + i.price * i.qty, 0);',
-    "  const discount = coupon === 'SAVE10' ? subtotal * 0.10 : 0;",
-    '  return Math.round((subtotal - discount) * 100) / 100;',
-    '}'
-  ];
-  var VARIANTS = {
-    none: { line: -1, text: null,
-      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon === 'SAVE10' ? s * 0.10 : 0; return Math.round((s - d) * 100) / 100; } },
-    qty: { line: 1, text: '  const subtotal = items.reduce((s, i) => s + i.price, 0);', label: 'ignore item quantity',
-      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price; }, 0); var d = coupon === 'SAVE10' ? s * 0.10 : 0; return Math.round((s - d) * 100) / 100; } },
-    double: { line: 2, text: "  const discount = coupon === 'SAVE10' ? subtotal * 0.20 : 0;", label: 'apply the discount twice',
-      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon === 'SAVE10' ? s * 0.20 : 0; return Math.round((s - d) * 100) / 100; } },
-    anycoupon: { line: 2, text: '  const discount = coupon ? subtotal * 0.10 : 0;', label: 'accept any coupon',
-      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon ? s * 0.10 : 0; return Math.round((s - d) * 100) / 100; } },
-    rounding: { line: 3, text: '  return subtotal - discount;', label: 'drop the rounding',
-      fn: function (items, coupon) { var s = items.reduce(function (a, i) { return a + i.price * i.qty; }, 0); var d = coupon === 'SAVE10' ? s * 0.10 : 0; return s - d; } }
-  };
-  var CART = [{ price: 100, qty: 2 }, { price: 50, qty: 1 }];
-  var TESTS = [
-    { name: 'adds price × quantity', expect: 250, run: function (f) { return f(CART); } },
-    { name: 'applies SAVE10 exactly once', expect: 225, run: function (f) { return f(CART, 'SAVE10'); } },
-    { name: 'ignores unknown coupons', expect: 250, run: function (f) { return f(CART, 'FREE'); } },
-    { name: 'rounds to two decimals', expect: 0.3, run: function (f) { return f([{ price: 0.1, qty: 1 }, { price: 0.2, qty: 1 }]); } },
-    { name: 'empty cart costs 0', expect: 0, run: function (f) { return f([]); } },
-    { name: 'returns a number', weak: true, run: function (f) { return f(CART); } }
-  ];
-
-  var codeEl = document.getElementById('code');
-  var testsEl = document.getElementById('tests');
-  var verdictEl = document.getElementById('verdict');
-  var bugSel = document.getElementById('bug');
-  var codeState = document.getElementById('code-state');
-
-  function highlight(src) {
-    // Escape only &, < and > so quote characters stay literal and digits inside entities can't be matched.
-    return src.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
-      .replace(/('[^']*')/g, '<span class="str">$1</span>')
-      .replace(/\b(function|const|return)\b/g, '<span class="kw">$1</span>')
-      .replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="num">$1</span>');
-  }
-  function renderCode() {
-    var v = VARIANTS[bugSel.value];
-    codeEl.innerHTML = BASE.map(function (l, i) {
-      var mut = v.line === i;
-      return '<span class="ln' + (mut ? ' mut' : '') + '" data-n="' + (i + 1) + '">' + highlight(mut ? v.text : l) + '</span>';
-    }).join('');
-    codeState.textContent = v.line === -1 ? 'correct code' : 'bug injected: line ' + (v.line + 1);
-    codeState.style.color = v.line === -1 ? '' : 'var(--fail)';
-  }
-  function renderTests(results) {
-    testsEl.innerHTML = TESTS.map(function (t, i) {
-      var r = results ? results[i] : null;
-      var cls = 't' + (t.weak ? ' weak' : '') + (r ? (r.ok ? ' pass' : ' fail') : ' idle');
-      var ic = r ? (r.ok ? '✓' : '✗') : '○';
-      var ev = r && !r.ok ? '<span class="ev">expected ' + esc(String(t.expect)) + ', got ' + esc(String(r.got)) + '</span>' : '';
-      return '<li class="' + cls + '" id="t' + i + '"><span class="ic">' + ic + '</span><span class="nm">' + esc(t.name) + '</span>' + ev + '</li>';
-    }).join('');
-  }
-  function runTests() {
-    var v = VARIANTS[bugSel.value];
-    var results = TESTS.map(function (t) {
-      var got;
-      try { got = t.run(v.fn); } catch (e) { return { ok: false, got: 'error: ' + e.message }; }
-      return t.weak ? { ok: typeof got === 'number', got: got } : { ok: got === t.expect, got: got };
-    });
-    renderTests(results);
-    if (!reduce) testsEl.querySelectorAll('.t').forEach(function (el) { el.classList.add('flash'); });
-    var failed = TESTS.filter(function (t, i) { return !t.weak && !results[i].ok; });
-    var weakPassed = results[TESTS.length - 1].ok;
-    verdictEl.className = 'verdict';
-    if (v.line === -1) {
-      verdictEl.innerHTML = '<b class="k">All 5 meaningful tests pass.</b> Green on correct code is only half the proof: now inject a bug and check the suite can fail.';
-      verdictEl.classList.add('caught');
-    } else if (failed.length) {
-      verdictEl.innerHTML = '<b class="k">Bug caught.</b> "' + esc(v.label) + '" failed ' + failed.length + ' of 5 meaningful tests: ' +
-        failed.map(function (t) { return '<b>' + esc(t.name) + '</b>'; }).join(', ') + '.' +
-        (weakPassed ? ' The weak test still passed: it can\'t tell right from wrong, so it proves nothing.' : '');
-      verdictEl.classList.add('caught');
-    } else {
-      verdictEl.innerHTML = '<b class="k">Bug missed.</b> No test failed. That means the suite has a gap to fix.';
-      verdictEl.classList.add('missed');
-    }
-  }
-  bugSel.addEventListener('change', function () { renderCode(); renderTests(null); verdictEl.className = 'verdict'; verdictEl.innerHTML = 'Bug selected. Press <b>Run tests</b>.'; });
-  document.getElementById('run-tests').addEventListener('click', runTests);
-  renderCode(); renderTests(null);
 
   // ---- Count-up numbers and section reveals (from a visible resting state) ----
   function countUp(el) {

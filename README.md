@@ -9,7 +9,6 @@ A one-page portfolio you can ask questions. I'm a Senior SDET who builds AI QA a
 ## Features
 
 - **Live test run.** The hero plays a CI-style run of my career numbers, ticking each check green and ending in PASSED, with a re-run button.
-- **Seed-a-bug lab.** A small cart function with five real tests and one deliberately weak test. Pick one of four bugs, inject it and run the suite: the tests really execute in the browser, failures show expected vs actual, and the weak test passes no matter what.
 - **Ask box.** Type a question or tap a topic chip. Answers are prewritten from my CV and picked by keyword matching; each shows its source and suggests two follow-up questions.
 - **Honest gaps.** Questions about tools I haven't used (for example Selenium, Java or Docker) get a clear "not on my CV" answer instead of a near match.
 - **Recruiter basics.** Download CV, LinkedIn and copy-email buttons in the hero, and a notice-period answer.
